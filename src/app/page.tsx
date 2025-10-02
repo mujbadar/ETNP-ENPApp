@@ -305,7 +305,7 @@ export default function ENPPatrolPage() {
         
         {status.officerName && (
           <p className="status-text" style={{ fontSize: '16px', fontWeight: '600', marginBottom: '8px' }}>
-            Officer {status.officerName}
+            {status.onDuty ? `Officer ${status.officerName}` : `Next Shift: Officer ${status.officerName}`}
           </p>
         )}
         

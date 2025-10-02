@@ -58,8 +58,8 @@ export async function GET(): Promise<NextResponse<StatusResponse | ErrorResponse
   }
 
   // Validate environment variables
-  const gcalId = process.env.NEXT_PUBLIC_GCAL_ID
-  const apiKey = process.env.NEXT_PUBLIC_GCAL_API_KEY
+  const gcalId = process.env.GCAL_ID || process.env.NEXT_PUBLIC_GCAL_ID
+  const apiKey = process.env.GCAL_API_KEY || process.env.NEXT_PUBLIC_GCAL_API_KEY
 
   if (!gcalId || !apiKey) {
     return NextResponse.json(
