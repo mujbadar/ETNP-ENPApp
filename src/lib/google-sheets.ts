@@ -59,12 +59,6 @@ export async function getAuthorizedEmails(): Promise<Set<string>> {
 
   } catch (error) {
     console.error('Error fetching authorized emails from spreadsheet:', error)
-    
-    // Return fallback emails if spreadsheet fails
-    return new Set([
-      'etnp.neighborhoodpatrol@gmail.com',
-      'mujbadar@gmail.com'
-    ])
   }
 }
 

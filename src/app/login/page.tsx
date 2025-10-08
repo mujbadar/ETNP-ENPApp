@@ -214,8 +214,21 @@ export default function LoginPage() {
                 marginTop: '8px',
                 textAlign: 'center'
               }}>
-                Check your email for the 6-digit code (expires in 10 minutes)
+                Check your email for the 6-digit code (expires in 10 minutes).
               </p>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px',
+                marginTop: '8px',
+                fontSize: '12px',
+                color: '#dc2626',
+                fontWeight: '500'
+              }}>
+                <span style={{ fontSize: '14px' }}>⚠️</span>
+                <span>You may need to check your spam folder!</span>
+              </div>
             </div>
             <button
               type="submit"
