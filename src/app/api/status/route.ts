@@ -200,6 +200,7 @@ export async function GET(): Promise<NextResponse<StatusResponse | ErrorResponse
           parseEventDateTime(a.start).getTime() - parseEventDateTime(b.start).getTime()
         )[0]
     }
+
     // Build response
     const statusResponse: StatusResponse = {
       onDuty,
@@ -251,10 +252,6 @@ function serializeEventDateTime(dateTime: CalendarEvent['start'] | CalendarEvent
     // For all-day events, use actual date instead of 11:59:59 PM
     return dateTime.date
   } else {
-    // Check if it's an end dateTime specifically
-    if (dateTime.start && 'date' in dateTime.start) {
-      return (dateTime.start as any).date
-    }
     throw new Error('Invalid event date format')
   }
 }
