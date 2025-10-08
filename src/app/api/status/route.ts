@@ -148,16 +148,38 @@ export async function GET(): Promise<NextResponse<StatusResponse | ErrorResponse
 
     const onDuty = !!currentEvent
 
-    // Try to extract officer name from current/upcoming events
+    // Try to extract officer name from current event FIRST, then calendar metadata
+    if (currentEvent && currentEvent.summary) {
+      // Various patterns for extracting officer name from current event titles
+      const patterns = [
+        /Officer\s+([A-Za-z\s]+)/i,
+        /Patrol\s+[-–]\s*([A-Za-z\s]+)/i,
+        /([A-Za-z\s]+)\s+Patrol/i,
+        /Shift[:\s]+([A-Za-z\s]+)/i,
+        /On\s+Duty\s+[-–]\s*Officer\s+([A-Za-z\s]+)/i,
+        /On\s+Duty\s+[-–]\s*([A-Za-z\s]+)/i
+      ]
+      
+      for (const pattern of patterns) {
+        const match = currentEvent.summary.match(pattern)
+        if (match && match[1]) {
+          officerName = match[1].trim()
+          break
+        }
+      }
+    }
+    
+    // If still no officer name, try upcoming events or calendar metadata
     if (!officerName && events.length > 0) {
-      const relevantEvent = currentEvent || events.find(event => parseEventDateTime(event.start) > new Date(now))
+      const relevantEvent = events.find(event => parseEventDateTime(event.start) > new Date(now))
       if (relevantEvent && relevantEvent.summary) {
-        // Various patterns for extracting officer name from event titles
         const patterns = [
           /Officer\s+([A-Za-z\s]+)/i,
           /Patrol\s+[-–]\s*([A-Za-z\s]+)/i,
           /([A-Za-z\s]+)\s+Patrol/i,
-          /Shift[:\s]+([A-Za-z\s]+)/i
+          /Shift[:\s]+([A-Za-z\s]+)/i,
+          /On\s+Duty\s+[-–]\s*Officer\s+([A-Za-z\s]+)/i,
+          /On\s+Duty\s+[-–]\s*([A-Za-z\s]+)/i
         ]
         
         for (const pattern of patterns) {
@@ -178,7 +200,6 @@ export async function GET(): Promise<NextResponse<StatusResponse | ErrorResponse
           parseEventDateTime(a.start).getTime() - parseEventDateTime(b.start).getTime()
         )[0]
     }
-
     // Build response
     const statusResponse: StatusResponse = {
       onDuty,
@@ -223,12 +244,17 @@ function parseEventDateTime(dateTime: CalendarEvent['start']): Date {
 /**
  * Serialize event date/time back to ISO string format
  */
-function serializeEventDateTime(dateTime: CalendarEvent['start']): string {
-  if (dateTime.dateTime) {
+function serializeEventDateTime(dateTime: CalendarEvent['start'] | CalendarEvent['end']): string {
+  if ('dateTime' in dateTime && dateTime.dateTime) {
     return dateTime.dateTime
-  } else if (dateTime.date) {
-    return dateTime.date + 'T23:59:59' // End of day for all-day events
+  } else if ('date' in dateTime && dateTime.date) {
+    // For all-day events, use actual date instead of 11:59:59 PM
+    return dateTime.date
   } else {
+    // Check if it's an end dateTime specifically
+    if (dateTime.start && 'date' in dateTime.start) {
+      return (dateTime.start as any).date
+    }
     throw new Error('Invalid event date format')
   }
 }

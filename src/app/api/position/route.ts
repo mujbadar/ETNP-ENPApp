@@ -103,16 +103,10 @@ export async function GET(): Promise<NextResponse<PositionResponse | ErrorRespon
   if (useFakeData) {
     // Generate fake patrol position data for Dallas, TX area
     const fakeLocations = [
-      { lat: 32.8442, lon: -96.7814, name: "Love Field Area" },           // N. of Lovers Ln, W. of Inwood
-      { lat: 32.8402, lon: -96.7839, name: "Vanguard Crossing" },         // Between Lovers and Mockingbird
-      { lat: 32.8365, lon: -96.7864, name: "Mockingbird Station" },       // Mockingbird Ln corridor
-      { lat: 32.8328, lon: -96.7889, name: "Highland Park Beat" },        // S. of Mockingbird, E. of Lemmon
-      { lat: 32.8291, lon: -96.7914, name: "Greenville Ave Patrol" },    // Near Greenville district
-      { lat: 32.8254, lon: -96.7939, name: "Lower Greenville" },         // Deep Ellum/Lower Greenville area
-      { lat: 32.8217, lon: -96.7964, name: "Knox Henderson District" },  // Knox/Henderson intersection
-      { lat: 32.8385, lon: -96.7758, name: "Love Field Terminal" },      // Near Love Field airport
-      { lat: 32.8355, lon: -96.7790, name: "Inwood Village" },           // Inwood shopping area
-      { lat: 32.8421, lon: -96.7772, name: "Park Cities Patrol" }         // Highland Park/University Park
+      { lat: 32.847591, lon: -96.832301},
+      { lat: 32.840433, lon: -96.834564},
+      { lat: 32.85, lon: -96.83},
+      { lat: 32.84, lon: -96.82},
     ]
 
     // Randomly select a location
