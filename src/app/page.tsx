@@ -42,6 +42,8 @@ export default function ENPPatrolPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [showCalendar, setShowCalendar] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [userEmail, setUserEmail] = useState<string | null>(null)
   
   // Map references
   const mapContainer = useRef<HTMLDivElement>(null)
@@ -265,12 +267,53 @@ export default function ENPPatrolPage() {
   }
 
   /**
+   * Check authentication status
+   */
+  const checkAuth = async (): Promise<void> => {
+    try {
+      const response = await fetch('/api/auth/me', {
+        credentials: 'include'
+      })
+      
+      if (response.ok) {
+        const data = await response.json()
+        setIsAuthenticated(true)
+        setUserEmail(data.email)
+      } else {
+        setIsAuthenticated(false)
+        setUserEmail(null)
+      }
+    } catch (error) {
+      setIsAuthenticated(false)
+      setUserEmail(null)
+    }
+  }
+
+  /**
+   * Logout user
+   */
+  const handleLogout = async (): Promise<void> => {
+    try {
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include'
+      })
+      setIsAuthenticated(false)
+      setUserEmail(null)
+      // Redirect to login page
+      window.location.href = '/login'
+    } catch (error) {
+      console.error('Logout error:', error)
+    }
+  }
+
+  /**
    * Initial data fetch and polling setup
    */
   useEffect(() => {
     const loadInitialData = async (): Promise<void> => {
       setLoading(true)
-      await Promise.all([fetchStatus(), fetchPosition()])
+      await Promise.all([checkAuth(), fetchStatus(), fetchPosition()])
       setLoading(false)
     }
 
@@ -301,7 +344,30 @@ export default function ENPPatrolPage() {
   return (
     <div className="app">
       <header className="header">
-        <h1>ETNP ENP Patrol</h1>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <h1 style={{ margin: 0 }}>ETNP ENP Patrol</h1>
+          {isAuthenticated && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <span style={{ fontSize: '14px', color: '#6b7280' }}>
+                {userEmail}
+              </span>
+              <button
+                onClick={handleLogout}
+                style={{
+                  padding: '6px 12px',
+                  backgroundColor: '#dc2626',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  fontSize: '12px',
+                  cursor: 'pointer'
+                }}
+              >
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
         
         {status.officerName && (
           <p className="status-text" style={{ fontSize: '16px', fontWeight: '600', marginBottom: '8px' }}>
