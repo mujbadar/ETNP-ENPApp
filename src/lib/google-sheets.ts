@@ -28,8 +28,8 @@ export async function getAuthorizedEmails(): Promise<Set<string>> {
   }
 
   try {
-    const spreadsheetId = '1_FtU1_lYBctNLLBCOozxlnK7e4Vb0FtifE4cc-L17AM'
-    const range = 'Sheet1!B2:B' // Column B starting from row 2
+    const spreadsheetId = '1bylYIq5PA_ShPzBEUhIXEVkU7Z8JLEColZ0lP8ViohA'
+    const range = 'Form Responses 1!G2:H' // Columns G and H starting from row 2
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
@@ -39,10 +39,20 @@ export async function getAuthorizedEmails(): Promise<Set<string>> {
     const values = response.data.values || []
     const emails = new Set<string>()
 
-    // Process each row in column B
+    // Process each row in columns G and H
     for (const row of values) {
+      // Check column G (index 0)
       if (row[0] && typeof row[0] === 'string') {
         const email = row[0].trim().toLowerCase()
+        // Basic email validation
+        if (email.includes('@') && email.includes('.')) {
+          emails.add(email)
+        }
+      }
+      
+      // Check column H (index 1)
+      if (row[1] && typeof row[1] === 'string') {
+        const email = row[1].trim().toLowerCase()
         // Basic email validation
         if (email.includes('@') && email.includes('.')) {
           emails.add(email)
