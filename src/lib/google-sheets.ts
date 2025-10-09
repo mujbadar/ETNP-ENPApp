@@ -66,7 +66,6 @@ export async function getAuthorizedEmails(): Promise<Set<string>> {
 
     console.log(`Fetched ${emails.size} authorized emails from spreadsheet`)
     return emails
-
   } catch (error) {
     console.error('Error fetching authorized emails from spreadsheet:', error)
     
