@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
@@ -94,7 +94,7 @@ export default function ENPPatrolPage() {
   /**
    * Fetch patrol position from Traccar via our API
    */
-  const fetchPosition = async (): Promise<void> => {
+  const fetchPosition = useCallback(async (): Promise<void> => {
     // Only fetch position if officer is actually on duty (calendar + geofencing)
     if (!status.actuallyOnDuty) {
       setPosition(null)
@@ -137,7 +137,7 @@ export default function ENPPatrolPage() {
       // Don't overwrite position error with status error
       if (!error) setError(errorMessage)
     }
-  }
+  }, [status.actuallyOnDuty, error])
 
   /**
    * Initialize MapLibre map with latest position
@@ -336,7 +336,7 @@ export default function ENPPatrolPage() {
       clearInterval(statusInterval)
       clearInterval(positionInterval)
     }
-  }, [status.onDuty])
+  }, [status.onDuty, fetchPosition])
 
   /**
    * Cleanup map on unmount

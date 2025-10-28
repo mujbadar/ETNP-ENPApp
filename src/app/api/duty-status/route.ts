@@ -177,7 +177,8 @@ export async function GET(): Promise<NextResponse<CombinedDutyStatus>> {
           distanceFromBase: geofenceStatus.distance,
           status: geofenceStatus.status
         },
-        dutyStartCondition: 'calendar_and_location'
+        dutyStartCondition: 'calendar_and_location',
+        statusMessage: hasLeft ? 'On duty' : 'Scheduled but at base'
       })
 
     } catch (locationError) {
