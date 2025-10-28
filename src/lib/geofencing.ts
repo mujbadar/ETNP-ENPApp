@@ -59,11 +59,19 @@ export function isInsideGeofence(location: LocationPoint, geofence: GeofenceConf
  * Get home base geofence configuration from environment variables
  */
 export function getHomeBaseConfig(): GeofenceConfig {
+  const lat = process.env.HOME_BASE_LAT
+  const lon = process.env.HOME_BASE_LON
+  const radius = process.env.HOME_BASE_RADIUS_METERS
+
+  if (!lat || !lon || !radius) {
+    throw new Error('Missing required environment variables: HOME_BASE_LAT, HOME_BASE_LON, HOME_BASE_RADIUS_METERS')
+  }
+
   return {
     name: 'Home Base',
-    lat: parseFloat(process.env.HOME_BASE_LAT),
-    lon: parseFloat(process.env.HOME_BASE_LON),
-    radiusMeters: parseInt(process.env.HOME_BASE_RADIUS_METERS)
+    lat: parseFloat(lat),
+    lon: parseFloat(lon),
+    radiusMeters: parseInt(radius, 10)
   }
 }
 
