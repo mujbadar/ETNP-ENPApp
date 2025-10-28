@@ -65,24 +65,17 @@ export async function POST(request: NextRequest): Promise<NextResponse<LoginResp
         email: email.toLowerCase()
       })
 
-      // Send email with verification code
-      try {
-        await sendVerificationEmail(email, code)
-        console.log(`Verification code sent to ${email}: ${code}`)
-        
-        return NextResponse.json({
-          success: true,
-          message: 'Verification code sent to your email'
-        })
-      } catch (emailError) {
+      // Send email with verification code (non-blocking)
+      sendVerificationEmail(email, code).catch((emailError) => {
         console.error('SendGrid error:', emailError)
-        // Fallback: return code for testing
-        return NextResponse.json({
-          success: true,
-          message: 'Email failed - check SendGrid setup. Code for testing:',
-          code: code
-        })
-      }
+      })
+      
+      console.log(`Verification code sent to ${email}: ${code}`)
+      
+      return NextResponse.json({
+        success: true,
+        message: 'Verification code sent to your email'
+      })
 
     } catch (firebaseError) {
       console.error('Firebase error:', firebaseError)

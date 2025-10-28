@@ -4,6 +4,9 @@ out/
 .env*.local
 .env
 
+# Generated static files from React app
+public/static/
+
 # Dependencies
 node_modules/
 .node_modules/

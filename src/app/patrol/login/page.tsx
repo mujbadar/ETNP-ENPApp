@@ -38,7 +38,12 @@ export default function LoginPage() {
 
       if (data.success) {
         setStep('code')
-        setError('') // Clear any previous errors
+        // Show code if email failed
+        if (data.code) {
+          setError(`Email failed - Use this code for testing: ${data.code}`)
+        } else {
+          setError('') // Clear any previous errors
+        }
       } else {
         setError(data.message)
       }

@@ -2,6 +2,24 @@
 
 A production-ready Next.js 14 (App Router) + TypeScript application that displays ON-DUTY/OFF-DUTY status from Google Calendar and live patrol location from Traccar.
 
+## 📁 Project Structure
+
+This repository contains two main components:
+
+### 1. **Next.js Patrol App** (`/src`)
+
+- Main patrol tracking application with authentication
+- Served at `/patrol` (protected, auth required)
+- Features: Real-time duty status, GPS tracking, interactive map
+- Tech: Next.js 14, TypeScript, Firebase Auth, SendGrid
+
+### 2. **React Static Site** (`/static`)
+
+- Public-facing website for all visitors
+- Served at `/` (root path, no auth required)
+- Features: About Us, Benefits, Contact info
+- Tech: Create React App (CRA)
+
 ## Features
 
 - **Real-time Duty Status**: Fetches officer schedule from Google Calendar API
