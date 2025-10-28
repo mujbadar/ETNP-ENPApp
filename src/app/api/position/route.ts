@@ -46,7 +46,8 @@ export async function GET(): Promise<NextResponse<PositionResponse | ErrorRespon
   if (cachedPosition && (now - cachedPosition.timestamp) < CACHE_DURATION) {
     // Check if officer is still on duty according to calendar before returning cached position
     try {
-      const statusResponse = await fetch(`${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : ''}/api/status`, {
+      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_BASE_URL || 'https://etnp-enp-app.vercel.app'
+      const statusResponse = await fetch(`${baseUrl}/api/status`, {
         cache: 'no-store'
       })
       if (statusResponse.ok) {
@@ -77,7 +78,8 @@ export async function GET(): Promise<NextResponse<PositionResponse | ErrorRespon
 
   // Before fetching new position, check if officer is on duty according to calendar
   try {
-    const statusResponse = await fetch(`${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : ''}/api/status`, {
+    const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_BASE_URL || 'https://etnp-enp-app.vercel.app'
+    const statusResponse = await fetch(`${baseUrl}/api/status`, {
       cache: 'no-store'
     })
     if (statusResponse.ok) {

@@ -116,7 +116,8 @@ async function getTraccarPosition(): Promise<LocationStatus | null> {
 export async function GET(): Promise<NextResponse<CombinedDutyStatus>> {
   try {
     // Get calendar status
-    const calendarResponse = await fetch(`${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : ''}/api/status`, {
+    const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.NEXT_PUBLIC_BASE_URL || 'https://etnp-enp-app.vercel.app'
+    const calendarResponse = await fetch(`${baseUrl}/api/status`, {
       cache: 'no-store'
     })
     
