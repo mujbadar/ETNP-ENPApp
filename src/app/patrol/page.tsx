@@ -11,6 +11,15 @@ interface DutyStatus {
   nextEventStart?: string
   officerName?: string
   calendarName?: string
+  actuallyOnDuty?: boolean
+  calendarOnDuty?: boolean
+  locationStatus?: {
+    hasLeftHomeBase: boolean
+    distanceFromBase: number
+    status: 'at_base' | 'in_field'
+  } | null
+  dutyStartCondition?: 'calendar_and_location' | 'calendar_only' | 'off_duty'
+  statusMessage?: string
 }
 
 interface PatrolPosition {
@@ -55,11 +64,11 @@ export default function ENPPatrolPage() {
   const gcalId = process.env.NEXT_PUBLIC_GCAL_ID
 
   /**
-   * Fetch duty status from Google Calendar via our API
+   * Fetch combined duty status (calendar + geofencing) via our API
    */
   const fetchStatus = async (): Promise<void> => {
     try {
-      const response = await fetch('/api/status', { 
+      const response = await fetch('/api/duty-status', { 
         cache: 'no-store',
         headers: {
           'Accept': 'application/json'
@@ -86,8 +95,8 @@ export default function ENPPatrolPage() {
    * Fetch patrol position from Traccar via our API
    */
   const fetchPosition = async (): Promise<void> => {
-    // Only fetch position if officer is on duty
-    if (!status.onDuty) {
+    // Only fetch position if officer is actually on duty (calendar + geofencing)
+    if (!status.actuallyOnDuty) {
       setPosition(null)
       setLastUpdate('')
       setNextUpdate('')
@@ -371,17 +380,19 @@ export default function ENPPatrolPage() {
         
         {status.officerName && (
           <p className="status-text" style={{ fontSize: '16px', fontWeight: '600', marginBottom: '8px' }}>
-            {status.onDuty ? `Officer ${status.officerName}` : `Next Shift: Officer ${status.officerName}`}
+            {status.actuallyOnDuty ? `Officer ${status.officerName}` : `Officer ${status.officerName}`}
           </p>
         )}
         
-        <div className={`status-pill ${status.onDuty ? 'on-duty' : 'off-duty'}`}>
-          {status.onDuty ? 'ON DUTY' : 'OFF DUTY'}
+        <div className={`status-pill ${status.actuallyOnDuty ? 'on-duty' : status.onDuty ? 'scheduled' : 'off-duty'}`}>
+          {status.actuallyOnDuty ? 'ON DUTY' : status.onDuty ? 'SCHEDULED' : 'OFF DUTY'}
         </div>
         
         <p className="status-text">
           {loading ? (
             'Loading status...'
+          ) : status.statusMessage ? (
+            status.statusMessage
           ) : status.onDuty ? (
             `On duty until ${formatTime(status.currentEventEnd)}`
           ) : status.nextEventStart ? (
@@ -413,9 +424,12 @@ export default function ENPPatrolPage() {
               }} 
             />
           </>
-        ) : !status.onDuty ? (
+        ) : !status.actuallyOnDuty ? (
           <div className="map-loading">
-            🚫 Officer off duty - No location tracking
+            {!status.onDuty 
+              ? '🚫 Officer off duty - No location tracking'
+              : '⏳ Scheduled but not yet on patrol'
+            }
           </div>
         ) : (
           <div className="map-loading">
@@ -424,9 +438,15 @@ export default function ENPPatrolPage() {
         )}
       </div>
 
-      {status.onDuty && lastUpdate && (
+      {status.actuallyOnDuty && lastUpdate && (
         <div className="last-update">
           Last update: {lastUpdate} • Next at: {nextUpdate}
+        </div>
+      )}
+      
+      {status.onDuty && !status.actuallyOnDuty && (
+        <div className="last-update" style={{ color: '#888' }}>
+          {status.statusMessage || 'Location tracking will begin when patrol starts'}
         </div>
       )}
       

@@ -44,15 +44,15 @@ export async function GET(): Promise<NextResponse<PositionResponse | ErrorRespon
   // Check cache first
   const now = Date.now()
   if (cachedPosition && (now - cachedPosition.timestamp) < CACHE_DURATION) {
-    // Check if officer is still on duty before returning cached position
+    // Check if officer is still on duty according to calendar before returning cached position
     try {
-      const statusResponse = await fetch(`${process.env.NODE_ENV === 'development' ? 'http://localhost:3002' : ''}/api/status`, {
+      const statusResponse = await fetch(`${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : ''}/api/status`, {
         cache: 'no-store'
       })
       if (statusResponse.ok) {
         const statusData = await statusResponse.json()
         if (!statusData.onDuty) {
-          // Officer is off duty - clear cache and return error
+          // Officer is off duty according to calendar - clear cache and return error
           cachedPosition = null
           return NextResponse.json({ error: 'Off duty - no GPS tracking' }, { status: 423 })
         }
@@ -75,15 +75,15 @@ export async function GET(): Promise<NextResponse<PositionResponse | ErrorRespon
     return NextResponse.json(cachedResponse)
   }
 
-  // Before fetching new position, check if officer is on duty
+  // Before fetching new position, check if officer is on duty according to calendar
   try {
-    const statusResponse = await fetch(`${process.env.NODE_ENV === 'development' ? 'http://localhost:3002' : ''}/api/status`, {
+    const statusResponse = await fetch(`${process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : ''}/api/status`, {
       cache: 'no-store'
     })
     if (statusResponse.ok) {
       const statusData = await statusResponse.json()
       if (!statusData.onDuty) {
-        // Officer is off duty - don't fetch position
+        // Officer is off duty according to calendar - don't fetch position
         cachedPosition = null
         return NextResponse.json({ error: 'Off duty - no GPS tracking' }, { status: 423 })
       }
@@ -93,39 +93,15 @@ export async function GET(): Promise<NextResponse<PositionResponse | ErrorRespon
     console.warn('Could not verify duty status, proceeding with position fetch')
   }
 
-  // Check if we should use fake data (for development/demo)
-  const useFakeData = process.env.NODE_ENV === 'development' || 
-                     !process.env.TRACCAR_BASE_URL || 
-                     !process.env.TRACCAR_USERNAME || 
-                     !process.env.TRACCAR_PASSWORD || 
-                     !process.env.TRACCAR_DEVICE_ID
-
-  if (useFakeData) {
-    // Generate fake patrol position data for Dallas, TX area
-    const fakeLocations = [
-      { lat: 32.847591, lon: -96.832301},
-      { lat: 32.840433, lon: -96.834564},
-      { lat: 32.85, lon: -96.83},
-      { lat: 32.84, lon: -96.82},
-    ]
-
-    // Randomly select a location
-    const randomLocation = fakeLocations[Math.floor(Math.random() * fakeLocations.length)]
-    
-    // Add some realistic jitter (±0.001 degrees = ~100m radius)
-    const jitterLat = randomLocation.lat + (Math.random() - 0.5) * 0.002
-    const jitterLon = randomLocation.lon + (Math.random() - 0.5) * 0.002
-    
-    const positionData: PositionResponse = {
-      lat: Number(jitterLat.toFixed(6)),
-      lon: Number(jitterLon.toFixed(6)),
-      at: new Date().toISOString()
-    }
-
-    // Cache the fake data
-    cachedPosition = { data: positionData, timestamp: now }
-    
-    return NextResponse.json(positionData)
+  // Check if Traccar is properly configured
+  if (!process.env.TRACCAR_BASE_URL || 
+      !process.env.TRACCAR_USERNAME || 
+      !process.env.TRACCAR_PASSWORD || 
+      !process.env.TRACCAR_DEVICE_ID) {
+    return NextResponse.json(
+      { error: 'GPS tracking is not currently available' },
+      { status: 503 }
+    )
   }
 
   // Validate environment variables for real Traccar
@@ -181,27 +157,27 @@ export async function GET(): Promise<NextResponse<PositionResponse | ErrorRespon
       // Map HTTP status codes to appropriate responses
       if (response.status === 401) {
         return NextResponse.json(
-          { error: 'Traccar authentication failed', details: errorDetails },
+          { error: 'GPS tracking is temporarily unavailable' },
           { status: 401 }
         )
       } else if (response.status === 403) {
         return NextResponse.json(
-          { error: 'Traccar access forbidden', details: errorDetails },
+          { error: 'GPS tracking is temporarily unavailable' },
           { status: 403 }
         )
       } else if (response.status === 404) {
         return NextResponse.json(
-          { error: 'Traccar device not found', details: errorDetails },
+          { error: 'GPS device not found - tracking unavailable' },
           { status: 404 }
         )
       } else if (response.status >= 500) {
         return NextResponse.json(
-          { error: 'Traccar server error', details: errorDetails },
+          { error: 'GPS tracking server is temporarily down' },
           { status: 503 }
         )
       } else {
         return NextResponse.json(
-          { error: 'Traccar request failed', details: errorDetails },
+          { error: 'GPS tracking is currently unavailable' },
           { status: response.status }
         )
       }
@@ -212,7 +188,7 @@ export async function GET(): Promise<NextResponse<PositionResponse | ErrorRespon
     // Validate response structure
     if (!Array.isArray(data) || data.length === 0) {
       return NextResponse.json(
-        { error: 'No position data available' },
+        { error: 'GPS location data is not currently available' },
         { status: 404 }
       )
     }
@@ -223,7 +199,7 @@ export async function GET(): Promise<NextResponse<PositionResponse | ErrorRespon
     // Validate position data
     if (!latestPosition || typeof latestPosition.latitude !== 'number' || typeof latestPosition.longitude !== 'number') {
       return NextResponse.json(
-        { error: 'Invalid position data received' },
+        { error: 'GPS data is invalid - tracking unavailable' },
         { status: 502 }
       )
     }
@@ -234,7 +210,7 @@ export async function GET(): Promise<NextResponse<PositionResponse | ErrorRespon
         Math.abs(latestPosition.latitude) > 90 || 
         Math.abs(latestPosition.longitude) > 180) {
       return NextResponse.json(
-        { error: 'Invalid GPS coordinates' },
+        { error: 'GPS coordinates are invalid - tracking unavailable' },
         { status: 422 }
       )
     }

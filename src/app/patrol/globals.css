@@ -52,6 +52,12 @@ body {
   border: 1px solid #16a34a;
 }
 
+.status-pill.scheduled {
+  background-color: #fef3c7;
+  color: #d97706;
+  border: 1px solid #f59e0b;
+}
+
 .status-pill.off-duty {
   background-color: #fee2e2;
   color: #dc2626;
