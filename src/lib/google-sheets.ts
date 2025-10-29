@@ -11,10 +11,10 @@ const auth = new google.auth.GoogleAuth({
 
 const sheets = google.sheets({ version: 'v4', auth })
 
-// Cache for authorized emails (refresh every 13 hours to work with 2x daily cron)
+// Cache for authorized emails (refresh once daily via cron on Hobby plan)
 let authorizedEmailsCache: Set<string> | null = null
 let cacheTimestamp: number = 0
-const CACHE_DURATION = 13 * 60 * 60 * 1000 // 13 hours (allows 2x daily refresh with overlap)
+const CACHE_DURATION = 25 * 60 * 60 * 1000 // 25 hours (allows once daily refresh with margin)
 
 /**
  * Fetch authorized emails from Google Spreadsheet

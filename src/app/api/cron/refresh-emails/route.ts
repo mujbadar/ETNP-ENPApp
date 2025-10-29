@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic'
 /**
  * GET /api/cron/refresh-emails
  * Cron job to refresh the authorized emails cache
- * Should be called every 25 minutes to keep cache warm
+ * Runs once daily at 6 AM UTC on Vercel Hobby plan
  * 
  * SECURITY: Protected by Vercel Cron Secret or Authorization header
  */
