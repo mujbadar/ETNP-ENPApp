@@ -93,10 +93,18 @@ export default function ENPPatrolPage() {
 
   /**
    * Fetch patrol position from Traccar via our API
+   * Uses ref to avoid recreating function on every status change
    */
+  const statusRef = useRef(status)
+  
+  // Keep ref in sync with latest status
+  useEffect(() => {
+    statusRef.current = status
+  }, [status])
+  
   const fetchPosition = useCallback(async (): Promise<void> => {
     // Only fetch position if officer is actually on duty (calendar + geofencing)
-    if (!status.actuallyOnDuty) {
+    if (!statusRef.current.actuallyOnDuty) {
       setPosition(null)
       setLastUpdate('')
       setNextUpdate('')
@@ -137,7 +145,7 @@ export default function ENPPatrolPage() {
       // Only set error if there isn't one already
       setError(prev => prev || errorMessage)
     }
-  }, [status.actuallyOnDuty])
+  }, [])
 
   /**
    * Initialize MapLibre map with latest position
@@ -318,25 +326,37 @@ export default function ENPPatrolPage() {
 
   /**
    * Initial data fetch and polling setup
+   * Separated to avoid infinite loops from dependency changes
    */
   useEffect(() => {
     const loadInitialData = async (): Promise<void> => {
       setLoading(true)
-      await Promise.all([checkAuth(), fetchStatus(), fetchPosition()])
+      // Fetch in sequence: auth first, then status, then position
+      await checkAuth()
+      await fetchStatus()
+      // Wait a tick to ensure status is updated before fetching position
+      await new Promise(resolve => setTimeout(resolve, 100))
+      await fetchPosition()
       setLoading(false)
     }
 
     loadInitialData()
 
     // Set up polling intervals
-    const statusInterval = setInterval(fetchStatus, 60000) // Every minute
-    const positionInterval = setInterval(fetchPosition, 120000) // Every 2 minutes
+    const statusInterval = setInterval(() => {
+      fetchStatus()
+    }, 60000) // Every minute
+    
+    const positionInterval = setInterval(() => {
+      fetchPosition()
+    }, 120000) // Every 2 minutes
 
     return () => {
       clearInterval(statusInterval)
       clearInterval(positionInterval)
     }
-  }, [checkAuth, fetchStatus, fetchPosition])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // Empty deps - only run once on mount
 
   /**
    * Cleanup map on unmount
