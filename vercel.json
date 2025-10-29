@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/cron/refresh-emails",
-      "schedule": "*/25 * * * *"
+      "schedule": "0 6,18 * * *"
     }
   ]
 }
