@@ -24,6 +24,7 @@ export async function getAuthorizedEmails(): Promise<Set<string>> {
   // Check cache first
   const now = Date.now()
   if (authorizedEmailsCache && (now - cacheTimestamp) < CACHE_DURATION) {
+    console.log(`Using cached emails (${authorizedEmailsCache.size} emails, age: ${Math.round((now - cacheTimestamp) / 1000)}s)`)
     return authorizedEmailsCache
   }
 
@@ -31,6 +32,7 @@ export async function getAuthorizedEmails(): Promise<Set<string>> {
     const spreadsheetId = '1bylYIq5PA_ShPzBEUhIXEVkU7Z8JLEColZ0lP8ViohA'
     const range = 'Form Responses 1!G2:H' // Columns G and H starting from row 2
 
+    console.log('Fetching fresh emails from Google Sheets...')
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
       range,
@@ -64,11 +66,19 @@ export async function getAuthorizedEmails(): Promise<Set<string>> {
     authorizedEmailsCache = emails
     cacheTimestamp = now
 
-    console.log(`Fetched ${emails.size} authorized emails from spreadsheet`)
+    console.log(`✅ Fetched ${emails.size} authorized emails from spreadsheet`)
     return emails
   } catch (error) {
-    console.error('Error fetching authorized emails from spreadsheet:', error)  
-    // Return fallback emails if spreadsheet fails
+    console.error('❌ Error fetching authorized emails from spreadsheet:', error)
+    
+    // Return stale cache if available (graceful degradation)
+    if (authorizedEmailsCache && authorizedEmailsCache.size > 0) {
+      console.log(`⚠️  Using stale cache (${authorizedEmailsCache.size} emails) due to fetch error`)
+      return authorizedEmailsCache
+    }
+    
+    // No cache available, return empty set
+    console.error('🚨 No cache available and fetch failed - returning empty set')
     return new Set([])
   }
 }

@@ -92,40 +92,53 @@ export default function LoginPage() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: '#f8f9fa',
-      padding: '20px'
+      background: 'linear-gradient(135deg, #0f172a 0%, #1a3a5c 50%, #2c5282 100%)',
+      padding: '20px',
+      position: 'relative'
     }}>
       <div style={{
         backgroundColor: 'white',
-        padding: '40px',
-        borderRadius: '8px',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        padding: '48px',
+        borderRadius: '16px',
+        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)',
         width: '100%',
-        maxWidth: '400px',
-        border: '2px solid #1a3a5c'
+        maxWidth: '440px',
+        position: 'relative'
       }}>
         <div style={{
           textAlign: 'center',
-          marginBottom: '30px'
+          marginBottom: '32px'
         }}>
-          <img 
-            src="/west-inwood-logo.svg" 
-            alt="West Inwood" 
-            style={{ height: '64px', width: '64px', margin: '0 auto 16px' }}
-          />
+          <div style={{
+            background: 'white',
+            padding: '12px',
+            borderRadius: '16px',
+            boxShadow: '0 4px 12px rgba(26, 58, 92, 0.15)',
+            display: 'inline-block',
+            marginBottom: '20px'
+          }}>
+            <img 
+              src="/west-inwood-logo.svg" 
+              alt="West Inwood" 
+              style={{ height: '56px', width: '56px', display: 'block' }}
+            />
+          </div>
           <h1 style={{
             margin: 0,
             color: '#1a3a5c',
-            fontSize: '24px',
+            fontSize: '28px',
             fontFamily: 'Georgia, serif',
-            fontWeight: 700
+            fontWeight: 700,
+            letterSpacing: '-0.5px',
+            marginBottom: '8px'
           }}>
             West Inwood ENP
           </h1>
           <p style={{
-            margin: '8px 0 0',
+            margin: 0,
             color: '#6b7280',
-            fontSize: '14px'
+            fontSize: '15px',
+            fontWeight: 500
           }}>
             Member Portal Login
           </p>
@@ -134,13 +147,14 @@ export default function LoginPage() {
         {error && (
           <div style={{
             backgroundColor: error.includes('verification code') ? '#d1fae5' : '#fee2e2',
-            border: `1px solid ${error.includes('verification code') ? '#16a34a' : '#dc2626'}`,
+            border: `2px solid ${error.includes('verification code') ? '#16a34a' : '#dc2626'}`,
             color: error.includes('verification code') ? '#16a34a' : '#dc2626',
-            padding: '12px',
-            borderRadius: '4px',
-            marginBottom: '20px',
+            padding: '14px 16px',
+            borderRadius: '10px',
+            marginBottom: '24px',
             fontSize: '14px',
-            fontWeight: error.includes('verification code') ? '600' : 'normal'
+            fontWeight: '500',
+            lineHeight: '1.5'
           }}>
             {error}
           </div>
@@ -148,12 +162,13 @@ export default function LoginPage() {
 
         {step === 'email' ? (
           <form onSubmit={handleEmailSubmit}>
-            <div style={{ marginBottom: '20px' }}>
+            <div style={{ marginBottom: '24px' }}>
               <label style={{
                 display: 'block',
-                marginBottom: '8px',
-                fontWeight: '500',
-                color: '#374151'
+                marginBottom: '10px',
+                fontWeight: '600',
+                color: '#1a3a5c',
+                fontSize: '14px'
               }}>
                 Email Address
               </label>
@@ -165,13 +180,17 @@ export default function LoginPage() {
                 required
                 style={{
                   width: '100%',
-                  padding: '12px',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '4px',
+                  padding: '14px 16px',
+                  border: '2px solid #e5e7eb',
+                  borderRadius: '10px',
                   fontSize: '16px',
-                  boxSizing: 'border-box'
+                  boxSizing: 'border-box',
+                  transition: 'all 0.2s ease',
+                  outline: 'none'
                 }}
-                placeholder="Enter your email"
+                placeholder="your.email@example.com"
+                onFocus={(e) => e.target.style.borderColor = '#1976d2'}
+                onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
               />
             </div>
             <button
@@ -179,15 +198,23 @@ export default function LoginPage() {
               disabled={loading}
               style={{
                 width: '100%',
-                padding: '12px',
-                backgroundColor: loading ? '#9ca3af' : '#1976d2',
+                padding: '14px',
+                background: loading ? '#9ca3af' : 'linear-gradient(135deg, #1976d2 0%, #1565c0 100%)',
                 color: 'white',
                 border: 'none',
-                borderRadius: '4px',
+                borderRadius: '10px',
                 fontSize: '16px',
                 fontWeight: '600',
                 cursor: loading ? 'not-allowed' : 'pointer',
-                boxShadow: loading ? 'none' : '0 2px 4px rgba(0, 0, 0, 0.1)'
+                boxShadow: loading ? 'none' : '0 4px 16px rgba(25, 118, 210, 0.3)',
+                transition: 'all 0.2s ease',
+                letterSpacing: '0.3px'
+              }}
+              onMouseEnter={(e) => {
+                if (!loading) e.currentTarget.style.transform = 'translateY(-1px)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)'
               }}
             >
               {loading ? 'Sending...' : 'Send Verification Code'}
@@ -195,12 +222,13 @@ export default function LoginPage() {
           </form>
         ) : (
           <form onSubmit={handleCodeSubmit}>
-            <div style={{ marginBottom: '20px' }}>
+            <div style={{ marginBottom: '24px' }}>
               <label style={{
                 display: 'block',
-                marginBottom: '8px',
-                fontWeight: '500',
-                color: '#374151'
+                marginBottom: '10px',
+                fontWeight: '600',
+                color: '#1a3a5c',
+                fontSize: '14px'
               }}>
                 Verification Code
               </label>
@@ -213,36 +241,45 @@ export default function LoginPage() {
                 maxLength={6}
                 style={{
                   width: '100%',
-                  padding: '12px',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '4px',
-                  fontSize: '16px',
+                  padding: '14px 16px',
+                  border: '2px solid #e5e7eb',
+                  borderRadius: '10px',
+                  fontSize: '24px',
                   textAlign: 'center',
-                  letterSpacing: '2px',
-                  boxSizing: 'border-box'
+                  letterSpacing: '8px',
+                  boxSizing: 'border-box',
+                  fontWeight: '600',
+                  transition: 'all 0.2s ease',
+                  outline: 'none'
                 }}
                 placeholder="000000"
+                onFocus={(e) => e.target.style.borderColor = '#16a34a'}
+                onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
               />
               <p style={{
-                fontSize: '12px',
+                fontSize: '13px',
                 color: '#6b7280',
-                marginTop: '8px',
-                textAlign: 'center'
+                marginTop: '12px',
+                textAlign: 'center',
+                lineHeight: '1.5'
               }}>
-                Check your email for the 6-digit code (expires in 10 minutes).
+                Check your email for the 6-digit code<br />(expires in 10 minutes)
               </p>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '6px',
-                marginTop: '8px',
+                gap: '8px',
+                marginTop: '12px',
+                padding: '10px',
+                background: '#fef3c7',
+                borderRadius: '8px',
                 fontSize: '12px',
-                color: '#dc2626',
-                fontWeight: '500'
+                color: '#d97706',
+                fontWeight: '600'
               }}>
-                <span style={{ fontSize: '14px' }}>⚠️</span>
-                <span>You may need to check your spam folder!</span>
+                <span style={{ fontSize: '16px' }}>⚠️</span>
+                <span>Check your spam folder!</span>
               </div>
             </div>
             <button
@@ -250,14 +287,23 @@ export default function LoginPage() {
               disabled={loading}
               style={{
                 width: '100%',
-                padding: '12px',
-                backgroundColor: loading ? '#9ca3af' : '#16a34a',
+                padding: '14px',
+                background: loading ? '#9ca3af' : 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
                 color: 'white',
                 border: 'none',
-                borderRadius: '4px',
+                borderRadius: '10px',
                 fontSize: '16px',
-                fontWeight: '500',
-                cursor: loading ? 'not-allowed' : 'pointer'
+                fontWeight: '600',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                boxShadow: loading ? 'none' : '0 4px 16px rgba(16, 185, 129, 0.3)',
+                transition: 'all 0.2s ease',
+                letterSpacing: '0.3px'
+              }}
+              onMouseEnter={(e) => {
+                if (!loading) e.currentTarget.style.transform = 'translateY(-1px)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)'
               }}
             >
               {loading ? 'Verifying...' : 'Verify & Login'}
@@ -267,13 +313,21 @@ export default function LoginPage() {
               onClick={() => setStep('email')}
               style={{
                 width: '100%',
-                padding: '8px',
+                padding: '12px',
                 backgroundColor: 'transparent',
                 color: '#6b7280',
                 border: 'none',
                 fontSize: '14px',
+                fontWeight: '500',
                 cursor: 'pointer',
-                marginTop: '12px'
+                marginTop: '16px',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#1a3a5c'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#6b7280'
               }}
             >
               ← Back to email
