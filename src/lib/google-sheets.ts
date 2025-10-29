@@ -18,7 +18,7 @@ const CACHE_DURATION = 25 * 60 * 60 * 1000 // 25 hours (allows once daily refres
 
 /**
  * Fetch authorized emails from Google Spreadsheet
- * Reads from column B starting at row 2
+ * Reads Primary Contact Email (H) and Secondary Contact Email (I) starting at row 2
  */
 export async function getAuthorizedEmails(): Promise<Set<string>> {
   // Check cache first
@@ -30,7 +30,7 @@ export async function getAuthorizedEmails(): Promise<Set<string>> {
 
   try {
     const spreadsheetId = '1bylYIq5PA_ShPzBEUhIXEVkU7Z8JLEColZ0lP8ViohA'
-    const range = 'Form Responses 1!G2:H' // Columns G and H starting from row 2
+    const range = 'Form Responses 1!H2:I' // Columns H (Primary Email) and I (Secondary Email) starting from row 2
 
     console.log('Fetching fresh emails from Google Sheets...')
     const response = await sheets.spreadsheets.values.get({
@@ -41,9 +41,9 @@ export async function getAuthorizedEmails(): Promise<Set<string>> {
     const values = response.data.values || []
     const emails = new Set<string>()
 
-    // Process each row in columns G and H
+    // Process each row in columns H and I
     for (const row of values) {
-      // Check column G (index 0)
+      // Check column H - Primary Contact Email (index 0)
       if (row[0] && typeof row[0] === 'string') {
         const email = row[0].trim().toLowerCase()
         // Basic email validation
@@ -52,7 +52,7 @@ export async function getAuthorizedEmails(): Promise<Set<string>> {
         }
       }
       
-      // Check column H (index 1)
+      // Check column I - Secondary Contact Email (index 1)
       if (row[1] && typeof row[1] === 'string') {
         const email = row[1].trim().toLowerCase()
         // Basic email validation
