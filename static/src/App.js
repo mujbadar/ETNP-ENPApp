@@ -33,61 +33,155 @@ import {
   ReferenceLine,
 } from "recharts";
 
-// West Inwood Community Partnership Logo Component
-const WestInwoodLogo = ({ size = 40, className = "" }) => (
+// West Inwood Community Partnership Logo Component (Icon only)
+const WestInwoodLogoIcon = ({ size = 40, className = "", style = {} }) => (
   <svg
     width={size}
     height={size}
     viewBox="0 0 100 100"
     className={className}
-    style={{ display: "inline-block" }}
+    style={{ display: "inline-block", ...style }}
   >
-    {/* Rounded rectangle background */}
+    {/* Rounded square background */}
     <rect
-      x="10"
-      y="10"
-      width="80"
-      height="80"
-      rx="12"
-      ry="12"
+      x="5"
+      y="5"
+      width="90"
+      height="90"
+      rx="20"
+      ry="20"
       fill="currentColor"
-      stroke="currentColor"
-      strokeWidth="2"
     />
 
-    {/* Heart shape */}
-    <g transform="translate(50, 25)">
-      <path
-        d="M0,15 C0,10 -8,5 -12,10 C-12,5 -20,5 -20,15 C-20,25 0,35 0,35 C0,35 20,25 20,15 C20,5 12,5 12,10 C8,5 0,10 0,15 Z"
-        fill="white"
-        transform="scale(0.8)"
-      />
+    {/* Community figures forming heart shape - all in white */}
+    <g fill="white">
+      {/* Top center person */}
+      <circle cx="50" cy="28" r="3.5" />
+      <path d="M 50 32 L 47 35 L 47 42 L 53 42 L 53 35 Z" />
 
-      {/* Community figures inside heart */}
-      <g fill="currentColor" transform="scale(0.6)">
-        {/* Top figure */}
-        <circle cx="0" cy="-5" r="3" />
-        <rect x="-2" y="-2" width="4" height="6" rx="1" />
+      {/* Left top person (left lobe of heart) */}
+      <circle cx="35" cy="33" r="3.5" />
+      <path d="M 35 37 L 32 40 L 32 47 L 38 47 L 38 40 Z" />
 
-        {/* Left figure */}
-        <circle cx="-8" cy="2" r="2.5" />
-        <rect x="-9.5" y="4" width="3" height="5" rx="1" />
+      {/* Right top person (right lobe of heart) */}
+      <circle cx="65" cy="33" r="3.5" />
+      <path d="M 65 37 L 62 40 L 62 47 L 68 47 L 68 40 Z" />
 
-        {/* Right figure */}
-        <circle cx="8" cy="2" r="2.5" />
-        <rect x="6.5" y="4" width="3" height="5" rx="1" />
+      {/* Left middle person */}
+      <circle cx="28" cy="45" r="3" />
+      <path d="M 28 48.5 L 25.5 51 L 25.5 57 L 30.5 57 L 30.5 51 Z" />
 
-        {/* Bottom left figure */}
-        <circle cx="-5" cy="8" r="2" />
-        <rect x="-6" y="10" width="2" height="4" rx="1" />
+      {/* Right middle person */}
+      <circle cx="72" cy="45" r="3" />
+      <path d="M 72 48.5 L 69.5 51 L 69.5 57 L 74.5 57 L 74.5 51 Z" />
 
-        {/* Bottom right figure */}
-        <circle cx="5" cy="8" r="2" />
-        <rect x="4" y="10" width="2" height="4" rx="1" />
-      </g>
+      {/* Left lower middle person */}
+      <circle cx="37" cy="55" r="3" />
+      <path d="M 37 58.5 L 34.5 61 L 34.5 67 L 39.5 67 L 39.5 61 Z" />
+
+      {/* Right lower middle person */}
+      <circle cx="63" cy="55" r="3" />
+      <path d="M 63 58.5 L 60.5 61 L 60.5 67 L 65.5 67 L 65.5 61 Z" />
+
+      {/* Left lower person */}
+      <circle cx="43" cy="65" r="2.8" />
+      <path d="M 43 68 L 40.8 70 L 40.8 75 L 45.2 75 L 45.2 70 Z" />
+
+      {/* Right lower person */}
+      <circle cx="57" cy="65" r="2.8" />
+      <path d="M 57 68 L 54.8 70 L 54.8 75 L 59.2 75 L 59.2 70 Z" />
+
+      {/* Bottom center person (point of heart) */}
+      <circle cx="50" cy="74" r="2.8" />
+      <path d="M 50 77 L 47.8 79 L 47.8 84 L 52.2 84 L 52.2 79 Z" />
     </g>
   </svg>
 );
+
+// Full West Inwood Logo with Text
+const WestInwoodLogo = ({ height = 60, className = "", style = {} }) => {
+  return (
+    <svg
+      height={height}
+      viewBox="0 0 400 100"
+      className={className}
+      style={{ display: "inline-block", ...style }}
+      preserveAspectRatio="xMinYMid meet"
+    >
+      {/* Icon with white outline */}
+      <g transform="translate(0, 0)">
+        {/* White outline */}
+        <rect
+          x="8"
+          y="8"
+          width="84"
+          height="84"
+          rx="18"
+          ry="18"
+          fill="none"
+          stroke="white"
+          strokeWidth="3"
+        />
+        {/* Navy background */}
+        <rect
+          x="12"
+          y="12"
+          width="76"
+          height="76"
+          rx="15"
+          ry="15"
+          fill="currentColor"
+        />
+        {/* People figures in white */}
+        <g fill="white">
+          <circle cx="50" cy="28" r="3.5" />
+          <path d="M 50 32 L 47 35 L 47 42 L 53 42 L 53 35 Z" />
+          <circle cx="35" cy="33" r="3.5" />
+          <path d="M 35 37 L 32 40 L 32 47 L 38 47 L 38 40 Z" />
+          <circle cx="65" cy="33" r="3.5" />
+          <path d="M 65 37 L 62 40 L 62 47 L 68 47 L 68 40 Z" />
+          <circle cx="28" cy="45" r="3" />
+          <path d="M 28 48.5 L 25.5 51 L 25.5 57 L 30.5 57 L 30.5 51 Z" />
+          <circle cx="72" cy="45" r="3" />
+          <path d="M 72 48.5 L 69.5 51 L 69.5 57 L 74.5 57 L 74.5 51 Z" />
+          <circle cx="37" cy="55" r="3" />
+          <path d="M 37 58.5 L 34.5 61 L 34.5 67 L 39.5 67 L 39.5 61 Z" />
+          <circle cx="63" cy="55" r="3" />
+          <path d="M 63 58.5 L 60.5 61 L 60.5 67 L 65.5 67 L 65.5 61 Z" />
+          <circle cx="43" cy="65" r="2.8" />
+          <path d="M 43 68 L 40.8 70 L 40.8 75 L 45.2 75 L 45.2 70 Z" />
+          <circle cx="57" cy="65" r="2.8" />
+          <path d="M 57 68 L 54.8 70 L 54.8 75 L 59.2 75 L 59.2 70 Z" />
+          <circle cx="50" cy="74" r="2.8" />
+          <path d="M 50 77 L 47.8 79 L 47.8 84 L 52.2 84 L 52.2 79 Z" />
+        </g>
+      </g>
+
+      {/* Text - "West" in regular, "Inwood" in italic */}
+      <text
+        x="110"
+        y="55"
+        fontFamily="Georgia, serif"
+        fontSize="40"
+        fontWeight="400"
+        fill="white"
+      >
+        West
+      </text>
+      <text
+        x="110"
+        y="90"
+        fontFamily="Georgia, serif"
+        fontSize="40"
+        fontWeight="400"
+        fontStyle="italic"
+        fill="white"
+      >
+        Inwood
+      </text>
+    </svg>
+  );
+};
 
 /**
  * West Inwood Community Partnership — Static Microsite (React, plain CSS)
@@ -190,29 +284,26 @@ function Navbar({ onOpenContactModal }) {
 
   const handleSectionClick = (sectionId) => (e) => {
     if (isHomePage) {
-      // On home page, prevent Link navigation and scroll directly
       e.preventDefault();
       const element = document.getElementById(sectionId);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       }
     }
-    // On about page, let the Link navigate normally to home page with hash
   };
 
   return (
     <header className="navbar">
       <div className="container nav-row">
         <Link to="/" className="brand">
-          <WestInwoodLogo size={32} className="accent" />
-          <span className="brand-name">{CONFIG.shortName}</span>
+          <WestInwoodLogo height={60} style={{ color: "var(--navy-dark)" }} />
         </Link>
         <nav className="nav-links">
           <Link to="/#benefits" onClick={handleSectionClick("benefits")}>
             Benefits
           </Link>
-          <Link to="/#perks" onClick={handleSectionClick("perks")}>
-            Member Perks
+          <Link to="/#services" onClick={handleSectionClick("services")}>
+            Services
           </Link>
           <Link
             to="/#participation"
@@ -224,18 +315,22 @@ function Navbar({ onOpenContactModal }) {
             FAQ
           </Link>
           <Link to="/about" className="nav-link">
-            About Us
+            About
           </Link>
-          <a href="/patrol" className="btn btn-secondary btn-sm">
-            ENP Patrol App
-          </a>
-          <Link
-            to="/#join"
-            className="btn btn-primary btn-sm"
-            onClick={handleJoinClick}
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href = "/patrol";
+            }}
+            className="nav-link"
+            style={{ marginRight: "8px" }}
           >
-            Join
-          </Link>
+            Member Login
+          </a>
+          <button onClick={handleJoinClick} className="btn btn-primary btn-sm">
+            Join Us
+          </button>
         </nav>
         <button
           className="nav-burger"
@@ -252,21 +347,36 @@ function Navbar({ onOpenContactModal }) {
           <div className="container mobile-grid">
             {[
               ["Benefits", "#benefits"],
-              ["Member Perks", "#perks"],
+              ["Services", "#services"],
               ["Participation", "#participation"],
-              ["Budget", "#budget"],
               ["FAQ", "#faq"],
             ].map(([label, href]) => (
-              <a key={href} href={href} className="mobile-link">
+              <a
+                key={href}
+                href={href}
+                className="mobile-link"
+                onClick={() => setOpen(false)}
+              >
                 {label}
               </a>
             ))}
-            <Link to="/about" className="mobile-link">
-              About Us
+            <Link
+              to="/about"
+              className="mobile-link"
+              onClick={() => setOpen(false)}
+            >
+              About
             </Link>
-            <a href="#join" className="btn btn-primary">
-              Join
+            <a href="/patrol" className="mobile-link">
+              Member Login
             </a>
+            <button
+              onClick={handleJoinClick}
+              className="btn btn-primary"
+              style={{ marginTop: "12px" }}
+            >
+              Join Us
+            </button>
           </div>
         </div>
       )}
@@ -278,68 +388,42 @@ function Hero({ onOpenContactModal }) {
   return (
     <section className="hero">
       <div className="container hero-grid">
-        <div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "16px",
-            }}
-          >
-            <WestInwoodLogo
-              size={64}
-              className="accent"
-              style={{ marginRight: "16px" }}
-            />
-            <div>
-              <h2 style={{ margin: 0, fontSize: "24px", fontWeight: "600" }}>
-                West Inwood
-              </h2>
-              <p style={{ margin: 0, fontSize: "16px", color: "var(--muted)" }}>
-                Community Partnership
-              </p>
-            </div>
-          </div>
-          <Pill>Community‑led • Safety‑focused</Pill>
+        <div className="hero-content">
+          <p className="hero-subtitle">Extended Neighborhood Patrol</p>
           <h1 className="h1">
-            Keep {CONFIG.serviceArea} safe with{" "}
-            <span className="accent-text">Community Partnership</span>
+            A community-driven initiative connecting neighbors and promoting
+            safety.
           </h1>
-          <p className="lead">
-            A community-driven initiative connecting neighbors, promoting
-            safety, and building stronger relationships throughout West Inwood
-            through collaboration and shared resources.
-          </p>
-          <div className="btn-row">
-            <button onClick={onOpenContactModal} className="btn btn-primary">
-              Join Our Community
-            </button>
-            <a href="#participation" className="btn btn-ghost">
-              See coverage
-            </a>
+          <div className="hero-images-mobile">
+            <img
+              src="https://images.unsplash.com/photo-1511895426328-dc8714191300?w=400&h=300&fit=crop"
+              alt="Community gathering"
+              className="hero-img-mobile"
+            />
+            <img
+              src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop"
+              alt="Neighborhood street"
+              className="hero-img-mobile"
+            />
           </div>
-          <p className="note">
-            <Info className="icon-sm" /> {CONFIG.meetingNote}
-          </p>
+          <button
+            onClick={onOpenContactModal}
+            className="btn btn-primary btn-large"
+          >
+            JOIN US
+          </button>
         </div>
-        <div className="visual-card">
-          {/* <div className="map-container">
-            <NeighborhoodMap className="neighborhood-map" />
-          </div> */}
-          <div className="visual-badges">
-            <div className="badge">
-              <MapPin className="icon accent" />
-              <p className="badge-text">Our Neighborhood</p>
-            </div>
-            <div className="badge">
-              <Users className="icon accent" />
-              <p className="badge-text">Community Focused</p>
-            </div>
-            <div className="badge">
-              <ShieldCheck className="icon accent" />
-              <p className="badge-text">Safety Partnership</p>
-            </div>
-          </div>
+        <div className="hero-images-desktop">
+          <img
+            src="https://images.unsplash.com/photo-1511895426328-dc8714191300?w=400&h=500&fit=crop"
+            alt="Community gathering"
+            className="hero-img"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=500&fit=crop"
+            alt="Neighborhood street"
+            className="hero-img"
+          />
         </div>
       </div>
     </section>
@@ -347,42 +431,175 @@ function Hero({ onOpenContactModal }) {
 }
 
 function Benefits() {
+  const benefits = [
+    {
+      icon: <ShieldCheck className="icon" />,
+      title: "Lower Crime",
+      desc: "Neighborhood Patrols are associated with meaningful reductions in thefts and break-ins.",
+    },
+    {
+      icon: <Users className="icon" />,
+      title: "Deterrence",
+      desc: "Visible presence discourages bad actors and loitering.",
+    },
+    {
+      icon: <PhoneCall className="icon" />,
+      title: "Faster Help",
+      desc: "Officers familiar with the area respond faster during their patrol hours.",
+    },
+  ];
+
   return (
-    <section id="benefits" className="section">
-      <SectionHeading
-        kicker="Why ENP"
-        title="Neighborhood Patrol Benefits"
-        subtitle="Evidence‑based safety measures that work for residential blocks."
-      />
-      <div className="container cards-3">
-        {CONFIG.benefits.map((b) => (
-          <div key={b.title} className="card">
-            <div className="avatar accent-bg">{b.icon}</div>
-            <h3 className="h3">{b.title}</h3>
-            <p className="muted">{b.desc}</p>
-          </div>
-        ))}
+    <section id="benefits" className="section section-white">
+      <div className="container">
+        <h2 className="section-title">Extended Neighborhood Patrol</h2>
+        <p className="section-subtitle">
+          A volunteer-based program that hires off-duty DPD officers to patrol
+          our streets.
+        </p>
+        <div className="benefits-grid">
+          {benefits.map((b, idx) => (
+            <div key={idx} className="benefit-card">
+              <div className="benefit-icon">{b.icon}</div>
+              <h3 className="benefit-title">{b.title}</h3>
+              <p className="benefit-desc">{b.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
 }
 
-function Perks() {
+function Services() {
+  const services = [
+    {
+      title: "Dedicated Patrols",
+      desc: "Off-duty DPD officers in vehicles patrol our streets on a set schedule during patrol hours.",
+    },
+    {
+      title: "Direct ENP Line",
+      desc: "Contributing homes receive a phone number to reach on-duty ENP officers during patrol hours.",
+    },
+    {
+      title: "Travel Watch",
+      desc: "Officers know when you're out of town — they'll keep an eye on your property during patrol shifts.",
+    },
+    {
+      title: "Members Only Website",
+      desc: "Log into the Members only section to track when officers will be on duty and exclusive community info.",
+    },
+    {
+      title: "Security & News Alerts",
+      desc: "Through our ENP officers, you can receive timely updates on security issues or relevant news related to the neighborhood.",
+    },
+  ];
+
   return (
-    <section id="perks" className="section alt">
-      <SectionHeading
-        kicker="Membership"
-        title="Contributing Member Perks"
-        subtitle="Added peace of mind for neighbors who fund the ENP."
-      />
-      <div className="container cards-3">
-        {CONFIG.perks.map((p) => (
-          <div key={p.title} className="card">
-            <div className="avatar accent-bg">{p.icon}</div>
-            <h3 className="h3">{p.title}</h3>
-            <p className="muted">{p.desc}</p>
-          </div>
-        ))}
+    <section id="services" className="section section-alt">
+      <div className="container">
+        <h2 className="section-title">Contributing Member Perks</h2>
+        <p className="section-subtitle">
+          Added peace of mind for neighbors who fund the ENP.
+        </p>
+        <div className="perks-grid">
+          {services.map((service, idx) => (
+            <div key={idx} className="perk-item">
+              <div className="perk-check">
+                <CheckCircle2 size={24} className="check-icon" />
+              </div>
+              <div className="perk-content">
+                <h3 className="perk-title">{service.title}</h3>
+                <p className="perk-desc">{service.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Testimonials() {
+  const testimonials = [
+    {
+      company: "INWOOD RESIDENT",
+      text: "The West Inwood Community Partnership has transformed our neighborhood. Knowing we have dedicated officers patrolling our streets gives us real peace of mind.",
+    },
+    {
+      company: "MOCKINGBIRD RESIDENT",
+      text: "We've seen a noticeable decrease in suspicious activity since the ENP program started. The officers are professional and truly care about our community.",
+    },
+    {
+      company: "LEMMON RESIDENT",
+      text: "Being able to contact an officer directly when we're traveling has been invaluable. The travel watch service alone is worth the investment in our neighborhood's safety.",
+    },
+  ];
+
+  return (
+    <section className="section blue-primary">
+      <div className="container">
+        <SectionHeading title="What our community says about us" />
+        <div className="testimonials-grid">
+          {testimonials.map((testimonial, idx) => (
+            <div key={idx} className="testimonial-item">
+              <p className="testimonial-company">{testimonial.company}</p>
+              <p className="testimonial-text">{testimonial.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WorkShowcase() {
+  const workItems = [
+    {
+      title: "Community Safety",
+      desc: "Regular patrols and neighborhood watch programs have created a safer environment for families.",
+      img: "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=600&h=400&fit=crop",
+    },
+    {
+      title: "Neighborhood Events",
+      desc: "We organize community gatherings that bring neighbors together and strengthen our bonds.",
+      img: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&h=400&fit=crop",
+    },
+    {
+      title: "Active Engagement",
+      desc: "Our members actively participate in making West Inwood a better place to live for everyone.",
+      img: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=600&h=400&fit=crop",
+    },
+  ];
+
+  return (
+    <section id="work" className="section blue-primary">
+      <div className="container">
+        <SectionHeading title="Our Work" />
+        <div className="work-grid">
+          {workItems.map((item, idx) => (
+            <div key={idx} className="work-item">
+              <img
+                src={item.img}
+                alt={item.title}
+                className="work-img"
+                onError={(e) => {
+                  e.target.style.display = "none";
+                  const placeholder = document.createElement("div");
+                  placeholder.className = "img-placeholder";
+                  placeholder.style.height = "280px";
+                  placeholder.textContent = item.title;
+                  e.target.parentNode.insertBefore(placeholder, e.target);
+                }}
+              />
+              <div className="work-content">
+                <h3 className="h3">{item.title}</h3>
+                <p>{item.desc}</p>
+                <button className="btn btn-secondary">Learn More</button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -396,53 +613,39 @@ function Participation() {
   const closeMapOverlay = () => setIsMapOverlayOpen(false);
 
   return (
-    <section id="participation" className="section">
-      <SectionHeading
-        kicker="Neighbors In"
-        title="Participation Snapshot"
-        subtitle="A quick look at streets that have raised their hand so far."
-      />
-      <div className="container two-col">
-        <div className="panel">
-          <h4 className="h4 row-title">
-            <Users className="icon accent" /> Contributing Streets
-          </h4>
-          {/* <ul className="street-list">
-            {CONFIG.streets.map((s) => (
-              <li key={s.name} className="street-item">
-                <span>{s.name}</span>
-                <span className="muted">{s.homes} homes</span>
-              </li>
-            ))}
-          </ul> */}
-          <p className="muted mt">
-            This is a preview list. We currently have <strong>{total}</strong>{" "}
-            interested homes overall.
-          </p>
-          <div className="callout">
-            <p>Current contributions get us:</p>
-            <h4 className="shift-text">3 shifts/week (416 hrs)</h4>
-            <p classname="small">+19 additional seasonal shifts!</p>
+    <section id="participation" className="section section-white">
+      <div className="container">
+        <h2 className="section-title">Participation Snapshot</h2>
+        <p className="section-subtitle">
+          Our neighborhood in West Inwood is backed by {CONFIG.serviceArea}
+        </p>
+        <div className="participation-content">
+          <div className="participation-info">
+            <p className="participation-text">
+              This is NOT representative of what I'm trying to show.
+            </p>
+            <p className="participation-details">
+              Our neighborhood in <strong>West Inwood</strong> to the east,{" "}
+              <strong>Mockingbird</strong> to the south, and{" "}
+              <strong>Lemmon</strong> to the West.
+            </p>
+            <p className="participation-count">
+              We currently have <strong>{total}</strong> participating homes.
+            </p>
+            <p className="participation-note">
+              Thank you to our corporate sponsors:
+            </p>
+            <div className="sponsors">
+              <div className="sponsor-badge">OLERO HOMES</div>
+              <div className="sponsor-badge">PARTNERS</div>
+            </div>
           </div>
-        </div>
-        <div className="panel">
-          <h4 className="h4 row-title">
-            <MapPin className="icon accent" /> Service Area
-          </h4>
-          <p className="muted">
-            {CONFIG.serviceArea}. Detailed patrol routes are planned with DPD to
-            focus on high‑traffic and vulnerable blocks.
-          </p>
           <div
-            className="participation-map-container interactive-map"
+            className="participation-map-wrapper"
             onClick={openMapOverlay}
             title="Click to view larger map"
           >
             <NeighborhoodMap className="participation-map" />
-            <div className="map-overlay-hint">
-              <MapPin size={16} />
-              <span>Click to enlarge</span>
-            </div>
           </div>
         </div>
       </div>
@@ -589,28 +792,30 @@ function Budget() {
 function FAQ() {
   const faqs = [
     {
-      q: "Who patrols the neighborhood?",
+      q: "WHO PATROLS THE NEIGHBORHOOD?",
       a: "Off‑duty Dallas Police officers, in uniform, using a city vehicle under the ENP program. They have the authority to enforce laws, make arrests, and respond to emergencies.",
     },
     {
-      q: "What do members get?",
-      a: "A direct phone line to on‑duty ENP officers during patrol hours, plus optional vacation watches through our contributor app.",
+      q: "WHAT DO MEMBERS GET?",
+      a: "A direct phone line to on‑duty ENP officers during patrol hours, plus optional vacation watches through our contributor app and exclusive access to officers will be on duty.",
     },
     {
-      q: "How are funds used?",
-      a: "100% for safety: officer pay, vehicle plan, patrol scheduling, and essential admin.",
+      q: "HOW ARE CONTRIBUTING FUNDS USED?",
+      a: "100% of funds are dedicated to neighborhood safety: officer pay, vehicle plan, patrol scheduling, communications, and essential administrative costs.",
     },
   ];
   return (
-    <section id="faq" className="section">
-      <SectionHeading kicker="Questions" title="FAQ" />
-      <div className="container faq-grid">
-        {faqs.map((f) => (
-          <div key={f.q} className="panel">
-            <h4 className="h4">{f.q}</h4>
-            <p className="muted">{f.a}</p>
-          </div>
-        ))}
+    <section id="faq" className="section section-alt">
+      <div className="container">
+        <h2 className="section-title">FAQs</h2>
+        <div className="faq-list">
+          {faqs.map((f, idx) => (
+            <div key={idx} className="faq-item">
+              <h3 className="faq-question">{f.q}</h3>
+              <p className="faq-answer">{f.a}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -618,51 +823,20 @@ function FAQ() {
 
 function Join({ onOpenContactModal }) {
   return (
-    <section id="join" className="join">
-      <div className="container join-grid">
-        <div>
-          <SectionHeading
-            title="Ready to join our community?"
-            subtitle="Join West Inwood Community Partnership. Your participation helps build a stronger, safer neighborhood for everyone."
-          />
-          <div className="btn-row">
-            <button onClick={onOpenContactModal} className="btn btn-primary">
-              Join Now
-            </button>
-            <a href={`mailto:${CONFIG.contactEmail}`} className="btn btn-ghost">
-              Email us
-            </a>
-          </div>
-          <p className="note">Questions about dues?</p>
-          <p className="muted">
-            Email us at{" "}
-            <a href={`mailto:${CONFIG.contactEmail}`} className="blue-link">
-              {CONFIG.contactEmail}
-            </a>
-          </p>
-        </div>
-        <div className="stats">
-          <div className="stat">
-            <p className="stat-value">{CONFIG.homesCount}</p>
-            <p className="stat-label">Homes interested</p>
-          </div>
-          <div className="stat">
-            <p className="stat-value">$600</p>
-            <p className="stat-label">Annual pledge</p>
-            <p className="small">
-              * More contributions are welcome if you are willing.
-            </p>
-          </div>
-          <div className="stat stat-wide">
-            <p className="small">
-              <PhoneCall className="icon-sm" /> Direct ENP line for contributing
-              homes
-            </p>
-            <p className="small">
-              <Calendar className="icon-sm" /> Optional vacation watch
-              notifications
-            </p>
-          </div>
+    <section id="join" className="section section-white">
+      <div className="container">
+        <h2 className="section-title">Ready to join our community?</h2>
+        <p className="section-subtitle">
+          Your participation helps build a stronger, safer neighborhood for
+          everyone.
+        </p>
+        <div className="join-cta">
+          <button
+            onClick={onOpenContactModal}
+            className="btn btn-primary btn-large"
+          >
+            JOIN US
+          </button>
         </div>
       </div>
     </section>
@@ -672,23 +846,67 @@ function Join({ onOpenContactModal }) {
 function Footer() {
   return (
     <footer className="footer">
-      <div className="container footer-row">
-        <div className="brand">
-          <ShieldCheck className="icon accent" />
-          <span className="brand-name">{CONFIG.shortName}</span>
+      <div className="container">
+        <div className="footer-row">
+          <div className="footer-contact">
+            <div style={{ marginBottom: "32px" }}>
+              <WestInwoodLogo
+                height={70}
+                style={{ color: "var(--navy-dark)" }}
+              />
+            </div>
+            <h3>CONTACT US</h3>
+            <ul className="footer-contact-list">
+              <li>
+                <a href={`mailto:${CONFIG.contactEmail}`}>
+                  {CONFIG.contactEmail}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Instagram
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://facebook.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Facebook
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://twitter.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Twitter
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 style={{ color: "white", marginBottom: "24px" }}>
+              OUR LOCATIONS
+            </h3>
+            <div className="footer-locations">
+              <div className="location-item">
+                <h4>PO Box XXX</h4>
+                <p>5600 W. Lovers Lane, Suite 116</p>
+                <p>Dallas, TX 75209</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="foot-text">
-          <p>{CONFIG.orgName}</p>
-          <p>{CONFIG.serviceArea}</p>
+        <div className="footer-copyright">
           <p>
-            Contact:{" "}
-            <a href={`mailto:${CONFIG.contactEmail}`}>{CONFIG.contactEmail}</a>
-          </p>
-        </div>
-        <div className="foot-text">
-          <p>
-            © {new Date().getFullYear()} {CONFIG.shortName}. All rights
-            reserved.
+            © {new Date().getFullYear()} {CONFIG.orgName}. All rights reserved.
           </p>
         </div>
       </div>
@@ -701,9 +919,8 @@ function Home({ onOpenContactModal }) {
     <>
       <Hero onOpenContactModal={onOpenContactModal} />
       <Benefits />
-      <Perks />
+      <Services />
       <Participation />
-      {/* <Budget /> */}
       <FAQ />
       <Join onOpenContactModal={onOpenContactModal} />
     </>

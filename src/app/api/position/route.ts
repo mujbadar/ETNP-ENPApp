@@ -150,10 +150,16 @@ export async function GET(): Promise<NextResponse<PositionResponse | ErrorRespon
       let errorDetails = `HTTP ${response.status}`
       
       try {
-        const errorData = await response.json()
-        errorDetails = errorData.message || JSON.stringify(errorData)
+        // Read the body as text first, then try to parse as JSON
+        const responseText = await response.text()
+        try {
+          const errorData = JSON.parse(responseText)
+          errorDetails = errorData.message || JSON.stringify(errorData)
+        } catch {
+          errorDetails = responseText || errorDetails
+        }
       } catch {
-        errorDetails = await response.text() || errorDetails
+        // If we can't read the response at all, use the default error details
       }
 
       // Map HTTP status codes to appropriate responses

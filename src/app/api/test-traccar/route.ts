@@ -83,7 +83,28 @@ export async function GET() {
 
     console.log(`✅ Connected using endpoint: ${workingEndpoint}`)
 
-    // Test 2: Check if device exists
+    // Test 2: First list all devices the user has access to
+    console.log('Listing all accessible devices...')
+    const allDevicesResponse = await fetch(`${cleanBaseUrl}/api/devices`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Basic ${auth}`,
+        'Accept': 'application/json',
+        'User-Agent': 'ENP-Patrol-Test/1.0'
+      },
+      signal: AbortSignal.timeout(10000)
+    })
+
+    let allDevices = []
+    let allDevicesError = null
+
+    if (allDevicesResponse.ok) {
+      allDevices = await allDevicesResponse.json()
+    } else {
+      allDevicesError = `HTTP ${allDevicesResponse.status}`
+    }
+
+    // Test 3: Check if specific device exists
     console.log('Testing device access...')
     const deviceResponse = await fetch(`${cleanBaseUrl}/api/devices?id=${deviceId}`, {
       method: 'GET',
@@ -100,7 +121,16 @@ export async function GET() {
         status: 'error',
         message: 'Cannot access device',
         details: `HTTP ${deviceResponse.status}`,
-        deviceId: deviceId
+        requestedDeviceId: deviceId,
+        availableDevices: allDevices.map((d: any) => ({
+          id: d.id,
+          name: d.name,
+          uniqueId: d.uniqueId,
+          status: d.status
+        })),
+        suggestion: allDevices.length > 0 
+          ? `Found ${allDevices.length} device(s) accessible. Update TRACCAR_DEVICE_ID to one of the IDs above.`
+          : 'No devices found. Make sure you have devices set up in Traccar.'
       }, { status: 404 })
     }
 
@@ -109,14 +139,22 @@ export async function GET() {
       return NextResponse.json({
         status: 'error',
         message: 'Device not found',
-        deviceId: deviceId,
-        suggestion: 'Check if the device ID is correct and the device exists in your Traccar server'
+        requestedDeviceId: deviceId,
+        availableDevices: allDevices.map((d: any) => ({
+          id: d.id,
+          name: d.name,
+          uniqueId: d.uniqueId,
+          status: d.status
+        })),
+        suggestion: allDevices.length > 0
+          ? `Device ID ${deviceId} not found. Update TRACCAR_DEVICE_ID to one of the IDs listed above.`
+          : 'Check if the device ID is correct and the device exists in your Traccar server'
       }, { status: 404 })
     }
 
     const device = devices[0]
 
-    // Test 3: Try to get latest position
+    // Test 4: Try to get latest position
     console.log('Testing position data...')
     const positionResponse = await fetch(`${cleanBaseUrl}/api/positions?deviceId=${deviceId}&latest=true`, {
       method: 'GET',

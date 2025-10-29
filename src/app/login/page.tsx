@@ -101,16 +101,35 @@ export default function LoginPage() {
         borderRadius: '8px',
         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
         width: '100%',
-        maxWidth: '400px'
+        maxWidth: '400px',
+        border: '2px solid #1a3a5c'
       }}>
-        <h1 style={{
+        <div style={{
           textAlign: 'center',
-          marginBottom: '30px',
-          color: '#1f2937',
-          fontSize: '24px'
+          marginBottom: '30px'
         }}>
-          ENP Patrol Login
-        </h1>
+          <img 
+            src="/west-inwood-logo.svg" 
+            alt="West Inwood" 
+            style={{ height: '64px', width: '64px', margin: '0 auto 16px' }}
+          />
+          <h1 style={{
+            margin: 0,
+            color: '#1a3a5c',
+            fontSize: '24px',
+            fontFamily: 'Georgia, serif',
+            fontWeight: 700
+          }}>
+            West Inwood ENP
+          </h1>
+          <p style={{
+            margin: '8px 0 0',
+            color: '#6b7280',
+            fontSize: '14px'
+          }}>
+            Member Portal Login
+          </p>
+        </div>
 
         {error && (
           <div style={{
@@ -161,13 +180,14 @@ export default function LoginPage() {
               style={{
                 width: '100%',
                 padding: '12px',
-                backgroundColor: loading ? '#9ca3af' : '#2563eb',
+                backgroundColor: loading ? '#9ca3af' : '#1976d2',
                 color: 'white',
                 border: 'none',
                 borderRadius: '4px',
                 fontSize: '16px',
-                fontWeight: '500',
-                cursor: loading ? 'not-allowed' : 'pointer'
+                fontWeight: '600',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                boxShadow: loading ? 'none' : '0 2px 4px rgba(0, 0, 0, 0.1)'
               }}
             >
               {loading ? 'Sending...' : 'Send Verification Code'}

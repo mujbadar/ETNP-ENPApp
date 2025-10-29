@@ -4,8 +4,26 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 
 export const metadata: Metadata = {
-  title: 'West Inwood ENP',
-  description: 'Neighborhood Security System',
+  title: 'West Inwood Community Partnership | Extended Neighborhood Patrol',
+  description: 'West Inwood Community Partnership - Extended Neighborhood Patrol program connecting neighbors and promoting safety in West Inwood, Dallas.',
+  keywords: ['West Inwood', 'community partnership', 'neighborhood patrol', 'Dallas', 'safety', 'ENP'],
+  authors: [{ name: 'West Inwood Community Partnership' }],
+  themeColor: '#1a3a5c',
+  manifest: '/manifest.json',
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: '32x32' }
+    ],
+    apple: '/logo192.png',
+  },
+  openGraph: {
+    title: 'West Inwood Community Partnership',
+    description: 'Extended Neighborhood Patrol program connecting neighbors and promoting safety in West Inwood, Dallas.',
+    type: 'website',
+    locale: 'en_US',
+    siteName: 'West Inwood Community Partnership',
+  },
 }
 
 interface RootLayoutProps {
@@ -38,7 +56,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="alternate icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/logo192.png" />
         <link rel="manifest" href="/manifest.json" />
         <link href={assets.css} rel="stylesheet" />
