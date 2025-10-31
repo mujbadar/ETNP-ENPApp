@@ -460,7 +460,7 @@ export default function ENPPatrolPage() {
 
         {status.actuallyOnDuty && lastUpdate && (
           <div className="last-update">
-            Last update: {lastUpdate} • Next at: {nextUpdate}
+            Officer location is delayed for security purposes.
           </div>
         )}
         

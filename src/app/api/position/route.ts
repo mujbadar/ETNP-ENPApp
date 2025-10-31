@@ -31,9 +31,9 @@ interface ErrorResponse {
   details?: string
 }
 
-// Cache for position data (in-memory cache with 2-minute expiration)
+// Cache for position data (in-memory cache with 30-second expiration)
 let cachedPosition: { data: PositionResponse; timestamp: number } | null = null
-const CACHE_DURATION = 2 * 60 * 1000 // 2 minutes in milliseconds
+const CACHE_DURATION = 30 * 1000 // 30 seconds in milliseconds
 
 /**
  * GET /api/position

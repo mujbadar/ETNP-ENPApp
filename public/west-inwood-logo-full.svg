@@ -1,37 +1,51 @@
-<svg height="100" viewBox="0 0 400 100" xmlns="http://www.w3.org/2000/svg">
-  <!-- Icon with white outline -->
-  <g>
-    <!-- White outline -->
-    <rect x="8" y="8" width="84" height="84" rx="18" ry="18" fill="none" stroke="white" stroke-width="3"/>
-    <!-- Navy background -->
-    <rect x="12" y="12" width="76" height="76" rx="15" ry="15" fill="#1a3a5c"/>
-    <!-- People figures in white -->
-    <g fill="white">
-      <circle cx="50" cy="28" r="3.5"/>
-      <path d="M 50 32 L 47 35 L 47 42 L 53 42 L 53 35 Z"/>
-      <circle cx="35" cy="33" r="3.5"/>
-      <path d="M 35 37 L 32 40 L 32 47 L 38 47 L 38 40 Z"/>
-      <circle cx="65" cy="33" r="3.5"/>
-      <path d="M 65 37 L 62 40 L 62 47 L 68 47 L 68 40 Z"/>
-      <circle cx="28" cy="45" r="3"/>
-      <path d="M 28 48.5 L 25.5 51 L 25.5 57 L 30.5 57 L 30.5 51 Z"/>
-      <circle cx="72" cy="45" r="3"/>
-      <path d="M 72 48.5 L 69.5 51 L 69.5 57 L 74.5 57 L 74.5 51 Z"/>
-      <circle cx="37" cy="55" r="3"/>
-      <path d="M 37 58.5 L 34.5 61 L 34.5 67 L 39.5 67 L 39.5 61 Z"/>
-      <circle cx="63" cy="55" r="3"/>
-      <path d="M 63 58.5 L 60.5 61 L 60.5 67 L 65.5 67 L 65.5 61 Z"/>
-      <circle cx="43" cy="65" r="2.8"/>
-      <path d="M 43 68 L 40.8 70 L 40.8 75 L 45.2 75 L 45.2 70 Z"/>
-      <circle cx="57" cy="65" r="2.8"/>
-      <path d="M 57 68 L 54.8 70 L 54.8 75 L 59.2 75 L 59.2 70 Z"/>
-      <circle cx="50" cy="74" r="2.8"/>
-      <path d="M 50 77 L 47.8 79 L 47.8 84 L 52.2 84 L 52.2 79 Z"/>
-    </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 850" width="1000" height="850" role="img" aria-label="West Inwood logo">
+  <!-- Colors -->
+  <defs>
+    <style>
+      .bg { fill: #142843; }        /* deep navy background */
+      .mark { fill: none; stroke: #F0EDE6; stroke-width: 18; stroke-linecap: round; stroke-linejoin: round; } 
+      .accent { fill: #F0EDE6; }    /* light cream for shapes and text */
+      .title { fill: #F0EDE6; font-family: "Garamond", "Times New Roman", Georgia, serif; text-anchor: middle; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" x="0" y="0" width="1000" height="850"/>
+
+  <!-- Rounded square icon (outline) - repositioned higher -->
+  <rect x="275" y="50" width="450" height="450" rx="40" ry="40" class="mark"/>
+
+  <!-- Heart shape inside rounded square -->
+  <path class="mark" d="M500 190
+                       C460 120, 360 120, 330 180
+                       C300 240, 380 320, 500 420
+                       C620 320, 700 240, 670 180
+                       C640 120, 540 120, 500 190 Z" fill="none"/>
+
+  <!-- Simplified people group inside the heart -->
+  <g transform="translate(0,-30)" stroke-linecap="round" stroke-linejoin="round">
+    <!-- center person -->
+    <circle cx="500" cy="300" r="22" class="accent"/>
+    <rect x="482" y="324" width="36" height="64" rx="10" ry="10" class="accent"/>
+
+    <!-- left person (slightly behind, smaller) -->
+    <circle cx="430" cy="330" r="18" class="accent"/>
+    <rect x="414" y="350" width="32" height="56" rx="9" ry="9" class="accent"/>
+
+    <!-- right person -->
+    <circle cx="570" cy="330" r="18" class="accent"/>
+    <rect x="554" y="350" width="32" height="56" rx="9" ry="9" class="accent"/>
+
+    <!-- two small front people (lower, smaller) -->
+    <circle cx="470" cy="380" r="14" class="accent"/>
+    <rect x="458" y="398" width="24" height="44" rx="7" ry="7" class="accent"/>
+
+    <circle cx="530" cy="380" r="14" class="accent"/>
+    <rect x="518" y="398" width="24" height="44" rx="7" ry="7" class="accent"/>
   </g>
-  
-  <!-- Text - "West" in regular, "Inwood" in italic -->
-  <text x="110" y="55" font-family="Georgia, serif" font-size="40" font-weight="400" fill="white">West</text>
-  <text x="110" y="90" font-family="Georgia, serif" font-size="40" font-weight="400" font-style="italic" fill="white">Inwood</text>
+
+  <!-- Title text: "West" (regular) above "Inwood" (italic) - repositioned up -->
+  <text x="500" y="600" class="title" font-size="140" font-weight="400">West</text>
+  <text x="500" y="730" class="title" font-size="170" font-style="italic">Inwood</text>
 </svg>
 

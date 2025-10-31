@@ -1,48 +1,47 @@
-<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-  <!-- Rounded square background -->
-  <rect x="5" y="5" width="90" height="90" rx="20" ry="20" fill="#1a3a5c"/>
-  
-  <!-- Community figures forming heart shape - all in white -->
-  <g fill="white">
-    <!-- Top center person -->
-    <circle cx="50" cy="28" r="3.5"/>
-    <path d="M 50 32 L 47 35 L 47 42 L 53 42 L 53 35 Z"/>
-    
-    <!-- Left top person (left lobe of heart) -->
-    <circle cx="35" cy="33" r="3.5"/>
-    <path d="M 35 37 L 32 40 L 32 47 L 38 47 L 38 40 Z"/>
-    
-    <!-- Right top person (right lobe of heart) -->
-    <circle cx="65" cy="33" r="3.5"/>
-    <path d="M 65 37 L 62 40 L 62 47 L 68 47 L 68 40 Z"/>
-    
-    <!-- Left middle person -->
-    <circle cx="28" cy="45" r="3"/>
-    <path d="M 28 48.5 L 25.5 51 L 25.5 57 L 30.5 57 L 30.5 51 Z"/>
-    
-    <!-- Right middle person -->
-    <circle cx="72" cy="45" r="3"/>
-    <path d="M 72 48.5 L 69.5 51 L 69.5 57 L 74.5 57 L 74.5 51 Z"/>
-    
-    <!-- Left lower middle person -->
-    <circle cx="37" cy="55" r="3"/>
-    <path d="M 37 58.5 L 34.5 61 L 34.5 67 L 39.5 67 L 39.5 61 Z"/>
-    
-    <!-- Right lower middle person -->
-    <circle cx="63" cy="55" r="3"/>
-    <path d="M 63 58.5 L 60.5 61 L 60.5 67 L 65.5 67 L 65.5 61 Z"/>
-    
-    <!-- Left lower person -->
-    <circle cx="43" cy="65" r="2.8"/>
-    <path d="M 43 68 L 40.8 70 L 40.8 75 L 45.2 75 L 45.2 70 Z"/>
-    
-    <!-- Right lower person -->
-    <circle cx="57" cy="65" r="2.8"/>
-    <path d="M 57 68 L 54.8 70 L 54.8 75 L 59.2 75 L 59.2 70 Z"/>
-    
-    <!-- Bottom center person (point of heart) -->
-    <circle cx="50" cy="74" r="2.8"/>
-    <path d="M 50 77 L 47.8 79 L 47.8 84 L 52.2 84 L 52.2 79 Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" width="1000" height="600" role="img" aria-label="West Inwood logo">
+  <!-- Colors -->
+  <defs>
+    <style>
+      .bg { fill: #142843; }        /* deep navy background */
+      .mark { fill: none; stroke: #F0EDE6; stroke-width: 18; stroke-linecap: round; stroke-linejoin: round; } 
+      .accent { fill: #F0EDE6; }    /* light cream for shapes and text */
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" x="0" y="0" width="1000" height="600"/>
+
+  <!-- Rounded square icon (outline) - centered and repositioned -->
+  <rect x="275" y="75" width="450" height="450" rx="40" ry="40" class="mark"/>
+
+  <!-- Heart shape inside rounded square -->
+  <path class="mark" d="M500 215
+                       C460 145, 360 145, 330 205
+                       C300 265, 380 345, 500 445
+                       C620 345, 700 265, 670 205
+                       C640 145, 540 145, 500 215 Z" fill="none"/>
+
+  <!-- Simplified people group inside the heart -->
+  <g transform="translate(0,-5)" stroke-linecap="round" stroke-linejoin="round">
+    <!-- center person -->
+    <circle cx="500" cy="300" r="22" class="accent"/>
+    <rect x="482" y="324" width="36" height="64" rx="10" ry="10" class="accent"/>
+
+    <!-- left person (slightly behind, smaller) -->
+    <circle cx="430" cy="330" r="18" class="accent"/>
+    <rect x="414" y="350" width="32" height="56" rx="9" ry="9" class="accent"/>
+
+    <!-- right person -->
+    <circle cx="570" cy="330" r="18" class="accent"/>
+    <rect x="554" y="350" width="32" height="56" rx="9" ry="9" class="accent"/>
+
+    <!-- two small front people (lower, smaller) -->
+    <circle cx="470" cy="380" r="14" class="accent"/>
+    <rect x="458" y="398" width="24" height="44" rx="7" ry="7" class="accent"/>
+
+    <circle cx="530" cy="380" r="14" class="accent"/>
+    <rect x="518" y="398" width="24" height="44" rx="7" ry="7" class="accent"/>
   </g>
+
 </svg>
 

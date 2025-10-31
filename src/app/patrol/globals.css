@@ -259,6 +259,16 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
+@media (max-width: 768px) {
+  .last-update {
+    font-size: 11px;
+    padding: 6px 12px;
+    margin-bottom: 16px;
+    border-radius: 16px;
+    font-weight: 400;
+  }
+}
+
 .action-buttons {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
