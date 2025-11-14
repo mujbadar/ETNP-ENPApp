@@ -63,7 +63,7 @@ const AboutUs = () => {
               }}
             >
               <img
-                src="/IMG_3642-preview.png"
+                src="/IMG_3642-preview.jpg"
                 alt="West Inwood community gathering"
                 style={{
                   transform: "scaleX(-1)",
