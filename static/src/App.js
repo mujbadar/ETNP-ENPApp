@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 
 /**
- * West Inwood Community Partnership — Static Microsite (React, plain CSS)
+ * West Inwood — Static Microsite (React, plain CSS)
  * ----------------------------------------------------------------
  * • Tailwind removed. Uses semantic classNames and the CSS at the bottom of this file.
  * • Copy the CSS between the === CSS START/END === markers into App.css (or index.css)
@@ -29,9 +29,9 @@ import {
 
 // ------------------ CONFIG: Edit these values ------------------
 const CONFIG = {
-  orgName: "West Inwood Community Partnership",
+  orgName: "West Inwood",
   shortName: "West Inwood", // used in header/footer
-  contactEmail: "etnp.neighborhoodpatrol@gmail.com",
+  contactEmail: "westinwood75209@gmail.com",
   meetingNote: "Community Meeting — Next Meeting TBA",
   serviceArea: "West Inwood, Dallas, Texas",
   perks: [
@@ -72,16 +72,6 @@ const CONFIG = {
   homesCount: 73, // update as your roster grows
 };
 // ---------------------------------------------------------------
-
-function SectionHeading({ kicker, title, subtitle }) {
-  return (
-    <div className="section-heading">
-      {kicker && <p className="kicker">{kicker}</p>}
-      <h2 className="h2">{title}</h2>
-      {subtitle && <p className="subtle">{subtitle}</p>}
-    </div>
-  );
-}
 
 function Navbar({ onOpenContactModal }) {
   const [open, setOpen] = useState(false);
@@ -127,9 +117,9 @@ function Navbar({ onOpenContactModal }) {
           />
         </Link>
         <nav className="nav-links">
-          <Link to="/#community" onClick={handleSectionClick("community")}>
+          {/* <Link to="/#community" onClick={handleSectionClick("community")}>
             Community
-          </Link>
+          </Link> */}
           <Link to="/#patrol" onClick={handleSectionClick("patrol")}>
             Patrol
           </Link>
@@ -172,7 +162,7 @@ function Navbar({ onOpenContactModal }) {
         <div className="nav-mobile">
           <div className="container mobile-grid">
             {[
-              ["Community", "#community"],
+              // ["Community", "#community"],
               ["Patrol", "#patrol"],
               ["Participation", "#participation"],
               ["FAQ", "#faq"],
@@ -232,7 +222,7 @@ function Hero({ onOpenContactModal }) {
       <div className="container hero-layout">
         {/* Text column */}
         <div className="hero-text-block">
-          <p className="hero-subtitle">West Inwood Community</p>
+          <p className="hero-subtitle">West Inwood</p>
           <h1 className="hero-heading">Welcome to West Inwood</h1>
           <p className="hero-tagline">
             More than a collection of homes – we are front‑porch hellos,
@@ -437,10 +427,10 @@ function Participation() {
         <div className="participation-content">
           <div className="participation-info">
             <p className="participation-details">
-              Our neighborhood <strong>West Inwood</strong> is surrounded by{" "}
-              <strong>Lovers</strong> to the north, <strong>Mockingbird</strong>{" "}
-              to the south, <strong>Inwood</strong> to the east, and{" "}
-              <strong>Lemmon</strong> to the west.
+              Our neighborhood is surrounded by <strong>Lovers</strong> to the
+              north, <strong>Mockingbird</strong> to the south,{" "}
+              <strong>Inwood</strong> to the east, and <strong>Lemmon</strong>{" "}
+              to the west.
             </p>
             <p className="participation-count">
               We currently have <strong>{total}</strong> participating homes.
@@ -514,7 +504,7 @@ function FAQ() {
     },
     {
       q: "HOW ARE CONTRIBUTING FUNDS USED?",
-      a: "100% of funds are dedicated to neighborhood safety: officer pay, vehicle plan, patrol scheduling, communications, and essential administrative costs.",
+      a: "90% of funds are dedicated to neighborhood safety: officer pay, vehicle plan, patrol scheduling, communications, and essential administrative costs.",
     },
   ];
   return (
@@ -631,7 +621,7 @@ function Footer() {
             <div style={{ marginBottom: "32px" }}>
               <img
                 src="/west-inwood-logo-full.svg"
-                alt="West Inwood Community Partnership"
+                alt="West Inwood NA"
                 height="70"
               />
             </div>
@@ -642,7 +632,7 @@ function Footer() {
                   {CONFIG.contactEmail}
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a
                   href="https://instagram.com"
                   target="_blank"
@@ -659,16 +649,7 @@ function Footer() {
                 >
                   Facebook
                 </a>
-              </li>
-              <li>
-                <a
-                  href="https://twitter.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Twitter
-                </a>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
