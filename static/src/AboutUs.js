@@ -7,8 +7,25 @@ const AboutUs = () => {
       {/* Hero Section */}
       <section className="about-hero">
         <div className="container">
-          <div className="about-hero-content">
-            <h1 className="h1">About West Inwood Community Partnership</h1>
+          <div
+            className="about-hero-content"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
+            <img
+              src="/west-inwood-logo.svg"
+              alt="West Inwood Logo"
+              style={{
+                width: "150px",
+                height: "150px",
+                marginBottom: "2rem",
+              }}
+            />
+            <h1 className="h1">About West Inwood Neighborhood Association</h1>
             <p className="lead">
               Building stronger, safer neighborhoods through community
               collaboration and partnership.
@@ -35,6 +52,26 @@ const AboutUs = () => {
                   neighborhood safety.
                 </p>
               </div>
+            </div>
+            {/* Community Image */}
+            <div
+              style={{
+                marginTop: "2rem",
+                borderRadius: "12px",
+                overflow: "hidden",
+                boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
+              }}
+            >
+              <img
+                src="/IMG_3642-preview.png"
+                alt="West Inwood community gathering"
+                style={{
+                  transform: "scaleX(-1)",
+                  width: "100%",
+                  height: "auto",
+                  display: "block",
+                }}
+              />
             </div>
             <div className="mission-statement">
               <p className="mission-quote">
@@ -175,16 +212,7 @@ const AboutUs = () => {
             <div className="contact-card">
               <Mail className="contact-icon" />
               <h3 className="h3">General Information</h3>
-              <p>info@westinwood.org</p>
-            </div>
-            <div className="contact-card">
-              <Phone className="contact-icon" />
-              <h3 className="h3">Community Meetings</h3>
-              <p>
-                Second Wednesday of each month, 7:00 PM
-                <br />
-                West Inwood Community Center
-              </p>
+              <p>westinwood75209@gmail.com</p>
             </div>
           </div>
         </div>

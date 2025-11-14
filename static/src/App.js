@@ -112,8 +112,10 @@ function Navbar({ onOpenContactModal }) {
         <Link to="/" className="brand">
           <img
             src="/west-inwood-logo-full.svg"
-            alt="West Inwood Community Partnership"
-            height="90"
+            alt="West Inwood NA"
+            height="80"
+            width="95"
+            style={{ borderRadius: "8px" }}
           />
         </Link>
         <nav className="nav-links">
@@ -274,53 +276,6 @@ function Hero({ onOpenContactModal }) {
   );
 }
 
-function CommunityIntro() {
-  return (
-    <section id="community" className="section section-white">
-      <div className="container">
-        <h2 className="section-title">Welcome to West Inwood</h2>
-        <p className="section-subtitle">
-          More than a collection of homes – we are front‑porch hellos,
-          tree‑lined streets, block events, watchful neighbors, and a shared
-          commitment to keeping West Inwood warm, safe, and connected.
-        </p>
-        <div className="benefits-grid">
-          <div className="benefit-card">
-            <div className="benefit-icon">
-              <Users className="icon" />
-            </div>
-            <h3 className="benefit-title">Community Events</h3>
-            <p className="benefit-desc">
-              Seasonal gatherings, meet‑ups, and opportunities to know the
-              people around you.
-            </p>
-          </div>
-          <div className="benefit-card">
-            <div className="benefit-icon">
-              <ShieldCheck className="icon" />
-            </div>
-            <h3 className="benefit-title">Shared Safety</h3>
-            <p className="benefit-desc">
-              Neighbors looking out for one another and supporting structured
-              patrol programs.
-            </p>
-          </div>
-          <div className="benefit-card">
-            <div className="benefit-icon">
-              <PhoneCall className="icon" />
-            </div>
-            <h3 className="benefit-title">Open Communication</h3>
-            <p className="benefit-desc">
-              Timely updates, resource sharing, and collaboration on
-              neighborhood priorities.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function PatrolSection() {
   const benefits = [
     {
@@ -345,7 +300,7 @@ function PatrolSection() {
         <h2 className="section-title">Extended Neighborhood Patrol (ENP)</h2>
         <p className="section-subtitle">
           A focused safety initiative: off‑duty DPD officers hired by and
-          accountable to our community.
+          accountable to our neighborhood.
         </p>
         <div className="benefits-grid">
           {benefits.map((b, idx) => (
@@ -589,7 +544,7 @@ function Join({ onOpenContactModal }) {
   return (
     <section id="join" className="section section-white">
       <div className="container">
-        <h2 className="section-title">Ready to join our community?</h2>
+        <h2 className="section-title">Ready to join our ENP program?</h2>
         <p className="section-subtitle">
           Your participation helps build a stronger, safer neighborhood for
           everyone.
@@ -623,6 +578,7 @@ function Footer() {
                 src="/west-inwood-logo-full.svg"
                 alt="West Inwood NA"
                 height="70"
+                style={{ borderRadius: "8px" }}
               />
             </div>
             <h3>CONTACT US</h3>
