@@ -6,6 +6,10 @@ import sgMail from '@sendgrid/mail'
 // Set SendGrid API key
 sgMail.setApiKey(process.env.SENDGRID_API_KEY!)
 
+// Rate limiting: track recent email sends (email -> timestamp)
+const recentSends = new Map<string, number>()
+const RATE_LIMIT_WINDOW = 60 * 1000 // 60 seconds
+
 interface LoginRequest {
   email: string
 }
@@ -40,6 +44,19 @@ export async function POST(request: NextRequest): Promise<NextResponse<LoginResp
       )
     }
 
+    // Rate limiting: prevent duplicate sends within 60 seconds
+    const normalizedEmail = email.toLowerCase()
+    const lastSendTime = recentSends.get(normalizedEmail)
+    const now = Date.now()
+
+    if (lastSendTime && (now - lastSendTime) < RATE_LIMIT_WINDOW) {
+      const secondsRemaining = Math.ceil((RATE_LIMIT_WINDOW - (now - lastSendTime)) / 1000)
+      return NextResponse.json(
+        { success: false, message: `Please wait ${secondsRemaining} seconds before requesting a new code` },
+        { status: 429 }
+      )
+    }
+
     // Generate 6-digit verification code
     const code = Math.floor(100000 + Math.random() * 900000).toString()
     const expires = Date.now() + 10 * 60 * 1000 // 10 minutes
@@ -65,17 +82,35 @@ export async function POST(request: NextRequest): Promise<NextResponse<LoginResp
         email: email.toLowerCase()
       })
 
-      // Send email with verification code (non-blocking)
-      sendVerificationEmail(email, code).catch((emailError) => {
+      // Send email with verification code (with timeout)
+      try {
+        await sendVerificationEmailWithTimeout(email, code)
+
+        // Track this send for rate limiting
+        recentSends.set(normalizedEmail, now)
+
+        // Clean up old entries to prevent memory leak
+        const entriesToDelete: string[] = []
+        recentSends.forEach((timestamp, trackedEmail) => {
+          if (now - timestamp > RATE_LIMIT_WINDOW) {
+            entriesToDelete.push(trackedEmail)
+          }
+        })
+        entriesToDelete.forEach(email => recentSends.delete(email))
+
+        console.log(`Verification code sent to ${email}: ${code}`)
+
+        return NextResponse.json({
+          success: true,
+          message: 'Verification code sent to your email'
+        })
+      } catch (emailError) {
         console.error('SendGrid error:', emailError)
-      })
-      
-      console.log(`Verification code sent to ${email}: ${code}`)
-      
-      return NextResponse.json({
-        success: true,
-        message: 'Verification code sent to your email'
-      })
+        return NextResponse.json(
+          { success: false, message: 'Failed to send email. Please try again.' },
+          { status: 500 }
+        )
+      }
 
     } catch (firebaseError) {
       console.error('Firebase error:', firebaseError)
@@ -92,6 +127,18 @@ export async function POST(request: NextRequest): Promise<NextResponse<LoginResp
       { status: 500 }
     )
   }
+}
+
+/**
+ * Send verification email using SendGrid with timeout
+ */
+async function sendVerificationEmailWithTimeout(email: string, code: string, timeoutMs: number = 8000): Promise<void> {
+  const sendPromise = sendVerificationEmail(email, code)
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    setTimeout(() => reject(new Error('Email send timeout after 8 seconds')), timeoutMs)
+  })
+
+  return Promise.race([sendPromise, timeoutPromise])
 }
 
 /**
@@ -121,7 +168,7 @@ async function sendVerificationEmail(email: string, code: string): Promise<void>
             <h1 style="color: #2563eb; margin: 0; font-size: 24px;">ENP Patrol</h1>
             <p style="color: #6b7280; margin: 5px 0 0; font-size: 14px;">Neighborhood Security System</p>
           </div>
-          
+
           <div style="background-color: #f8fafc; padding: 30px; border-radius: 8px; text-align: center; margin-bottom: 30px;">
             <h2 style="color: #1f2937; margin: 0 0 20px; font-size: 20px;">Your Login Verification Code</h2>
             <div style="background-color: white; padding: 20px; border-radius: 8px; display: inline-block; border: 2px solid #e5e7eb; margin-bottom: 15px;">
@@ -129,12 +176,12 @@ async function sendVerificationEmail(email: string, code: string): Promise<void>
             </div>
             <p style="color: #6b7280; margin: 0; font-size: 14px;">This code will expire in 10 minutes</p>
           </div>
-          
+
           <div style="text-align: center; color: #6b7280; font-size: 14px; line-height: 1.5;">
             <p style="margin: 0 0 10px;">If you didn't request this code, please ignore this email.</p>
             <p style="margin: 0;">For security reasons, do not share this code with anyone.</p>
           </div>
-          
+
           <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #9ca3af; font-size: 12px;">
             <p style="margin: 0;">This is an automated message from ENP Patrol System</p>
           </div>

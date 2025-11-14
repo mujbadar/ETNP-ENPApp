@@ -11,10 +11,10 @@ const auth = new google.auth.GoogleAuth({
 
 const sheets = google.sheets({ version: 'v4', auth })
 
-// Cache for authorized emails (refresh once daily via cron on Hobby plan)
+// Cache for authorized emails
 let authorizedEmailsCache: Set<string> | null = null
 let cacheTimestamp: number = 0
-const CACHE_DURATION = 25 * 60 * 60 * 1000 // 25 hours (allows once daily refresh with margin)
+const CACHE_DURATION = 5 * 60 * 1000 // 5 minutes - faster refresh for better security
 
 /**
  * Fetch authorized emails from Google Spreadsheet
@@ -33,10 +33,18 @@ export async function getAuthorizedEmails(): Promise<Set<string>> {
     const range = 'Form Responses 1!H2:I' // Columns H (Primary Email) and I (Secondary Email) starting from row 2
 
     console.log('Fetching fresh emails from Google Sheets...')
-    const response = await sheets.spreadsheets.values.get({
+    
+    // Add timeout to prevent slow API calls from blocking login
+    const fetchPromise = sheets.spreadsheets.values.get({
       spreadsheetId,
       range,
     })
+    
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(new Error('Google Sheets API timeout after 5 seconds')), 5000)
+    })
+    
+    const response = await Promise.race([fetchPromise, timeoutPromise]) as any
 
     const values = response.data.values || []
     const emails = new Set<string>()
@@ -90,3 +98,17 @@ export async function isEmailAuthorized(email: string): Promise<boolean> {
   const authorizedEmails = await getAuthorizedEmails()
   return authorizedEmails.has(email.toLowerCase())
 }
+
+/**
+ * Pre-warm the cache on server startup
+ * Call this during Next.js initialization
+ */
+export function prewarmCache(): void {
+  // Fire and forget - don't await
+  getAuthorizedEmails().catch(err => {
+    console.error('Failed to prewarm email cache:', err)
+  })
+}
+
+// Pre-warm cache on module load
+prewarmCache()
