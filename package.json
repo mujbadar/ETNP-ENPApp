@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "npm run build:react && next build",
-    "build:react": "cd static && npm install && npm run build && cd .. && rm -rf public/static public/css public/js public/index.html public/favicon.ico public/logo*.png public/manifest.json && mkdir -p public && cp static/build/index.html public/ && cp -r static/build/static/* public/ && cp static/build/favicon.ico static/build/manifest.json static/build/logo*.png public/ 2>/dev/null || true && sed -i.bak 's|src=\"/static/|src=\"/|g' public/index.html && sed -i.bak 's|href=\"/static/|href=\"/|g' public/index.html && rm -f public/index.html.bak",
+    "build:react": "cd static && npm install && npm run build && cd .. && rm -rf public/static public/css public/js public/index.html public/favicon.ico public/logo*.png public/manifest.json && mkdir -p public && cp static/build/index.html public/ && cp -r static/build/static/* public/ && cp static/build/favicon.ico static/build/manifest.json static/build/logo*.png public/ 2>/dev/null || true && cp static/build/*.svg public/ 2>/dev/null || true && sed -i.bak 's|src=\"/static/|src=\"/|g' public/index.html && sed -i.bak 's|href=\"/static/|href=\"/|g' public/index.html && rm -f public/index.html.bak",
     "static:dev": "cd static && npm install && npm start",
     "static:build": "cd static && npm run build",
     "start": "next start",

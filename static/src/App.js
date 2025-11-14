@@ -575,10 +575,10 @@ function Footer() {
           <div className="footer-contact">
             <div style={{ marginBottom: "32px" }}>
               <img
-                src="/west-inwood-logo-full.svg"
+                src="/west-inwood-logo-trans.svg"
                 alt="West Inwood NA"
                 height="70"
-                style={{ borderRadius: "8px" }}
+                width="300"
               />
             </div>
             <h3>CONTACT US</h3>
