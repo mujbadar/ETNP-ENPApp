@@ -10,13 +10,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'West Inwood Community Partnership' }],
   themeColor: '#1a3a5c',
   manifest: '/manifest.json',
-  icons: {
-    icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.ico', sizes: '32x32' }
-    ],
-    apple: '/logo192.png',
-  },
+  // Icons are auto-detected from src/app/icon.svg and src/app/apple-icon.png
   openGraph: {
     title: 'West Inwood Community Partnership',
     description: 'Extended Neighborhood Patrol program connecting neighbors and promoting safety in West Inwood, Dallas.',
