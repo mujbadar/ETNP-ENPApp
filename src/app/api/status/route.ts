@@ -69,9 +69,9 @@ export async function GET(): Promise<NextResponse<StatusResponse | ErrorResponse
   }
 
   try {
-    // Calculate time window: 6 hours ago to 18 hours in future
+    // Calculate time window: 6 hours ago to 14 days in future (to catch weekend shifts)
     const timeWindowStart = new Date(now - 6 * 60 * 60 * 1000)
-    const timeWindowEnd = new Date(now + 18 * 60 * 60 * 1000)
+    const timeWindowEnd = new Date(now + 14 * 24 * 60 * 60 * 1000)
 
     // Build Google Calendar API URL
     const baseUrl = 'https://www.googleapis.com/calendar/v3/calendars'

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
+import PatrolScheduleModal from '@/components/PatrolScheduleModal'
 
 // TypeScript interfaces
 interface DutyStatus {
@@ -61,7 +62,6 @@ export default function ENPPatrolPage() {
 
   // Get environment variables for client-side use
   const patrolPhone = process.env.NEXT_PUBLIC_PATROL_PHONE || '+1234567890'
-  const gcalId = process.env.NEXT_PUBLIC_GCAL_ID
 
   /**
    * Fetch combined duty status (calendar + geofencing) via our API
@@ -260,13 +260,40 @@ export default function ENPPatrolPage() {
   }
 
   /**
-   * Generate Google Calendar embed URL for iframe
+   * Format date and time for display (shows date if not within 18 hours)
    */
-  const getCalendarEmbedUrl = (): string => {
-    if (!gcalId) return ''
+  const formatDateTime = (isoString?: string): string => {
+    if (!isoString) return 'Unknown'
     
-    const encodedCalendarId = encodeURIComponent(gcalId)
-    return `https://calendar.google.com/calendar/embed?src=${encodedCalendarId}&mode=week&showCalendars=0&showTz=0&showTitle=0&height=600&wkst=1&bgcolor=%23FFFFFF&ctz=America%2FChicago`
+    try {
+      const date = new Date(isoString)
+      const now = new Date()
+      const hoursUntil = (date.getTime() - now.getTime()) / (1000 * 60 * 60)
+      
+      // If within 18 hours, show just the time
+      if (hoursUntil <= 18) {
+        return date.toLocaleTimeString([], { 
+          hour: '2-digit', 
+          minute: '2-digit',
+          hour12: true 
+        })
+      } else {
+        // For shifts beyond 18 hours, show date and time
+        const dateStr = date.toLocaleDateString([], { 
+          weekday: 'short',
+          month: 'short', 
+          day: 'numeric'
+        })
+        const timeStr = date.toLocaleTimeString([], { 
+          hour: '2-digit', 
+          minute: '2-digit',
+          hour12: true 
+        })
+        return `${dateStr} at ${timeStr}`
+      }
+    } catch {
+      return 'Invalid date/time'
+    }
   }
 
   /**
@@ -413,7 +440,19 @@ export default function ENPPatrolPage() {
               ) : status.onDuty ? (
                 `On duty until ${formatTime(status.currentEventEnd)}`
               ) : status.nextEventStart ? (
-                `Next shift starts at ${formatTime(status.nextEventStart)}`
+                (() => {
+                  const nextShiftDate = new Date(status.nextEventStart)
+                  const now = new Date()
+                  const hoursUntil = (nextShiftDate.getTime() - now.getTime()) / (1000 * 60 * 60)
+                  
+                  // Within 18 hours: use "starts at" with time only
+                  if (hoursUntil <= 18) {
+                    return `Next shift starts at ${formatDateTime(status.nextEventStart)}`
+                  } else {
+                    // Beyond 18 hours: use shorter "Next shift:" with date and time
+                    return `Next shift: ${formatDateTime(status.nextEventStart)}`
+                  }
+                })()
               ) : (
                 'No upcoming shifts scheduled'
               )}
@@ -476,74 +515,7 @@ export default function ENPPatrolPage() {
         )}
 
       {/* Calendar Modal */}
-      {showCalendar && (
-        <div 
-          className="modal-overlay"
-          onClick={closeCalendarModal}
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000
-          }}
-        >
-          <div 
-            className="modal-content"
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              backgroundColor: 'white',
-              borderRadius: '8px',
-              padding: '16px',
-              width: '800px',
-              height: '600px',
-              display: 'flex',
-              flexDirection: 'column'
-            }}
-          >
-            <div style={{
-              textAlign: 'center',
-              marginBottom: '16px'
-            }}>
-              <h2 style={{
-                margin: 0,
-                fontSize: '18px',
-                color: '#374151'
-              }}>
-                📅 West Inwood ENP Patrol Schedule
-              </h2>
-              <button
-                onClick={closeCalendarModal}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  fontSize: '20px',
-                  cursor: 'pointer',
-                  float: 'right',
-                  marginTop: '-30px'
-                }}
-                aria-label="Close calendar"
-              >
-                ×
-              </button>
-            </div>
-            
-            <iframe
-              src={getCalendarEmbedUrl()}
-              width="100%"
-              height="100%"
-              frameBorder="0"
-              scrolling="no"
-              title="Officer Patrol Schedule"
-            />
-          </div>
-        </div>
-      )}
+      <PatrolScheduleModal isOpen={showCalendar} onClose={closeCalendarModal} />
         
         <div className="emergency-notice">
           🚨 {status.onDuty ? 
@@ -575,9 +547,9 @@ export default function ENPPatrolPage() {
             <button 
               onClick={openCalendarModal}
               className="action-btn white-border"
-              aria-label="View weekly schedule"
+              aria-label="View patrol schedule"
             >
-              📅 View Weekly Schedule
+              📅 View Patrol Schedule
             </button>
           </div>
         </div>

@@ -4,19 +4,33 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 
 export const metadata: Metadata = {
-  title: 'West Inwood Community Partnership | Extended Neighborhood Patrol',
-  description: 'West Inwood Community Partnership - Extended Neighborhood Patrol program connecting neighbors and promoting safety in West Inwood, Dallas.',
-  keywords: ['West Inwood', 'community partnership', 'neighborhood patrol', 'Dallas', 'safety', 'ENP'],
-  authors: [{ name: 'West Inwood Community Partnership' }],
+  title: 'West Inwood Neighborhood Association | Extended Neighborhood Patrol',
+  description: 'West Inwood Neighborhood Association - Extended Neighborhood Patrol program connecting neighbors and promoting safety in West Inwood, Dallas.',
+  keywords: ['West Inwood', 'neighborhood association', 'neighborhood patrol', 'Dallas', 'safety', 'ENP'],
+  authors: [{ name: 'West Inwood Neighborhood Association' }],
   themeColor: '#1a3a5c',
   manifest: '/manifest.json',
   // Icons are auto-detected from src/app/icon.svg and src/app/apple-icon.png
   openGraph: {
-    title: 'West Inwood Community Partnership',
+    title: 'West Inwood Neighborhood Association',
     description: 'Extended Neighborhood Patrol program connecting neighbors and promoting safety in West Inwood, Dallas.',
     type: 'website',
     locale: 'en_US',
-    siteName: 'West Inwood Community Partnership',
+    siteName: 'West Inwood Neighborhood Association',
+    images: [
+      {
+        url: '/logo512.png',
+        width: 512,
+        height: 512,
+        alt: 'West Inwood Logo',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary',
+    title: 'West Inwood Neighborhood Association',
+    description: 'Extended Neighborhood Patrol program connecting neighbors and promoting safety in West Inwood, Dallas.',
+    images: ['/logo512.png'],
   },
 }
 

@@ -459,7 +459,7 @@ function FAQ() {
     },
     {
       q: "HOW ARE CONTRIBUTING FUNDS USED?",
-      a: "90% of funds are dedicated to neighborhood safety: officer pay, vehicle plan, patrol scheduling, communications, and essential administrative costs.",
+      a: "90% of funds are dedicated to neighborhood safety: officer pay, vehicle plan, patrol scheduling, communications, and essential administrative costs. The remaining 10% is used for administrative costs (website, phone plan, etc.) and other community events.",
     },
   ];
   return (
