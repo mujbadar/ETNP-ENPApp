@@ -104,15 +104,18 @@ export async function GET(request: NextRequest): Promise<NextResponse<ScheduleRe
     const scheduleEvents: ScheduleEvent[] = events.map(event => {
       const startDateTime = parseEventDateTime(event.start)
       const endDateTime = parseEventDateTime(event.end)
-      
+
+      // Use the timezone from the calendar event, or default to America/Chicago (Dallas)
+      const timezone = event.start.timeZone || event.end.timeZone || 'America/Chicago'
+
       // Check if this is a seasonal shift
       const isSeasonal = event.summary.toUpperCase().startsWith('SEASONAL')
-      
+
       // Extract officer name from event summary
       let officerName = 'Officer'
       // Remove "SEASONAL" prefix if present before parsing
       let summaryToParse = isSeasonal ? event.summary.replace(/^SEASONAL\s*/i, '') : event.summary
-      
+
       const patterns = [
         /Officer\s+([A-Za-z\s]+)/i,
         /Patrol\s+[-–]\s*([A-Za-z\s]+)/i,
@@ -121,7 +124,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<ScheduleRe
         /On\s+Duty\s+[-–]\s*Officer\s+([A-Za-z\s]+)/i,
         /On\s+Duty\s+[-–]\s*([A-Za-z\s]+)/i
       ]
-      
+
       for (const pattern of patterns) {
         const match = summaryToParse.match(pattern)
         if (match && match[1]) {
@@ -133,15 +136,17 @@ export async function GET(request: NextRequest): Promise<NextResponse<ScheduleRe
       return {
         id: event.id,
         date: startDateTime.toISOString(),
-        startTime: startDateTime.toLocaleTimeString([], { 
-          hour: '2-digit', 
+        startTime: startDateTime.toLocaleTimeString('en-US', {
+          hour: '2-digit',
           minute: '2-digit',
-          hour12: true 
+          hour12: true,
+          timeZone: timezone
         }),
-        endTime: endDateTime.toLocaleTimeString([], { 
-          hour: '2-digit', 
+        endTime: endDateTime.toLocaleTimeString('en-US', {
+          hour: '2-digit',
           minute: '2-digit',
-          hour12: true 
+          hour12: true,
+          timeZone: timezone
         }),
         officerName,
         summary: event.summary,
