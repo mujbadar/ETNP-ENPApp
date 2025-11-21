@@ -517,23 +517,6 @@ function PatrolPortal() {
               </p>
             </div>
           </div>
-
-          <div className="benefit-showcase-item">
-            <div className="benefit-showcase-image">
-              <img
-                src="/portal-calendar.png"
-                alt="ENP patrol schedule calendar showing weekly officer duty times"
-                className="showcase-img showcase-secondary"
-              />
-            </div>
-            <div className="benefit-showcase-content">
-              <h3 className="benefit-showcase-title">Patrol Schedule Access</h3>
-              <p className="benefit-showcase-desc">
-                View the complete ENP patrol schedule to know exactly when
-                officers will be in the neighborhood and plan accordingly.
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </section>
