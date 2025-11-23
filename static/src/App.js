@@ -69,7 +69,7 @@ const CONFIG = {
     },
   ],
   // Financial model inputs
-  homesCount: 73, // update as your roster grows
+  homesCount: 79, // update as your roster grows
 };
 // ---------------------------------------------------------------
 
@@ -229,7 +229,7 @@ function Hero({ onOpenContactModal }) {
           <p className="hero-tagline">
             More than a collection of homes – we are front‑porch hellos,
             tree‑lined streets, block events, watchful neighbors, and a shared
-            commitment to keeping West Inwood warm, safe, and connected.
+            commitment to keeping our neighborhood warm, safe, and connected.
           </p>
           <button
             onClick={() =>
@@ -320,7 +320,7 @@ function Services() {
   const services = [
     {
       title: "Dedicated Patrols",
-      desc: "Off-duty DPD officers in vehicles patrol our streets on a set schedule during patrol hours.",
+      desc: "Off-duty DPD officers in marked vehicles patrol our streets on a set schedule during patrol hours.",
     },
     {
       title: "Direct ENP Line",
@@ -332,7 +332,7 @@ function Services() {
     },
     {
       title: "Members Only Website",
-      desc: "Log into the Members only section to track when officers will be on duty and exclusive community info.",
+      desc: "Log into the Members only section to track when officers will be on duty and directly communicate with ENP officers with the click of a button.",
     },
     {
       title: "Security & News Alerts",
@@ -570,6 +570,15 @@ function Footer() {
                 <a href={`mailto:${CONFIG.contactEmail}`}>
                   {CONFIG.contactEmail}
                 </a>
+              </li>
+              <li style={{ marginTop: "12px" }}>
+                <strong>Mailing Address:</strong>
+                <br />
+                5600 W Lovers Ln Suite 116
+                <br />
+                PO Box 537
+                <br />
+                Dallas, TX 75209
               </li>
               {/* <li>
                 <a

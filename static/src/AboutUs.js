@@ -214,6 +214,15 @@ const AboutUs = () => {
               <h3 className="h3">General Information</h3>
               <p>westinwood75209@gmail.com</p>
             </div>
+            <div className="contact-card">
+              <Mail className="contact-icon" />
+              <h3 className="h3">Mailing Address</h3>
+              <p>
+                5600 W Lovers Ln Suite 116<br />
+                PO Box 537<br />
+                Dallas, TX 75209
+              </p>
+            </div>
           </div>
         </div>
       </section>

@@ -583,7 +583,24 @@ export default function ENPPatrolPage() {
       <VacationForm isOpen={showVacationForm} onClose={closeVacationForm} />
 
       <footer className="footer">
-        West Inwood Extended Neighborhood Patrol • Member Portal • Secure Access Required
+        <div style={{ marginBottom: '8px' }}>
+          West Inwood Extended Neighborhood Patrol • Member Portal • Secure Access Required
+        </div>
+        <div style={{ fontSize: '13px' }}>
+          <a 
+            href="mailto:westinwood75209@gmail.com?subject=Bug Report - Member Portal" 
+            style={{ 
+              color: '#93c5fd', 
+              textDecoration: 'none',
+              borderBottom: '1px solid transparent',
+              transition: 'border-color 0.2s'
+            }}
+            onMouseOver={(e) => e.currentTarget.style.borderBottomColor = '#93c5fd'}
+            onMouseOut={(e) => e.currentTarget.style.borderBottomColor = 'transparent'}
+          >
+            🐛 Report a Bug
+          </a>
+        </div>
       </footer>
     </div>
   )
