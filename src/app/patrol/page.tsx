@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import PatrolScheduleModal from '@/components/PatrolScheduleModal'
+import VacationForm from '@/components/VacationForm'
 
 // TypeScript interfaces
 interface DutyStatus {
@@ -52,6 +53,7 @@ export default function ENPPatrolPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [showCalendar, setShowCalendar] = useState(false)
+  const [showVacationForm, setShowVacationForm] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [userEmail, setUserEmail] = useState<string | null>(null)
   
@@ -311,6 +313,20 @@ export default function ENPPatrolPage() {
   }
 
   /**
+   * Open vacation form modal
+   */
+  const openVacationForm = (): void => {
+    setShowVacationForm(true)
+  }
+
+  /**
+   * Close vacation form modal
+   */
+  const closeVacationForm = (): void => {
+    setShowVacationForm(false)
+  }
+
+  /**
    * Check authentication status
    */
   const checkAuth = useCallback(async (): Promise<void> => {
@@ -514,9 +530,6 @@ export default function ENPPatrolPage() {
           </div>
         )}
 
-      {/* Calendar Modal */}
-      <PatrolScheduleModal isOpen={showCalendar} onClose={closeCalendarModal} />
-        
         <div className="emergency-notice">
           🚨 {status.onDuty ? 
             `For emergencies call 911. Officer ${status.officerName} will respond to 911 calls for our neighborhood` : 
@@ -551,9 +564,23 @@ export default function ENPPatrolPage() {
             >
               📅 View Patrol Schedule
             </button>
+            
+            <button 
+              onClick={openVacationForm}
+              className="action-btn white-border"
+              aria-label="Submit vacation notice"
+            >
+              🏖️ Vacation Notice
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Calendar Modal */}
+      <PatrolScheduleModal isOpen={showCalendar} onClose={closeCalendarModal} />
+      
+      {/* Vacation Form Modal */}
+      <VacationForm isOpen={showVacationForm} onClose={closeVacationForm} />
 
       <footer className="footer">
         West Inwood Extended Neighborhood Patrol • Member Portal • Secure Access Required

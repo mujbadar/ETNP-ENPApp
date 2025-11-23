@@ -255,7 +255,7 @@ export default function PatrolScheduleModal({ isOpen, onClose }: PatrolScheduleM
               <strong>Weekend:</strong> Friday & Saturday 12:00 AM - 4:00 AM
             </div>
             <div style={{ marginBottom: scheduleEvents.some(e => e.isSeasonal) ? '8px' : '0' }}>
-              <strong>Weekday:</strong> 1 floating shift Mon-Wed 6:00 PM - 10:00 PM
+              <strong>Weekday:</strong> 1 floating shift Mon-Thu 6:00 PM - 10:00 PM
             </div>
             {scheduleEvents.some(e => e.isSeasonal) && (
               <div style={{
