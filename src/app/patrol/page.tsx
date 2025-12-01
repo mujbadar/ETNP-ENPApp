@@ -5,6 +5,7 @@ import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import PatrolScheduleModal from '@/components/PatrolScheduleModal'
 import VacationForm from '@/components/VacationForm'
+import PrivacyPolicyModal from '@/components/PrivacyPolicyModal'
 
 // TypeScript interfaces
 interface DutyStatus {
@@ -54,6 +55,7 @@ export default function ENPPatrolPage() {
   const [error, setError] = useState<string | null>(null)
   const [showCalendar, setShowCalendar] = useState(false)
   const [showVacationForm, setShowVacationForm] = useState(false)
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [userEmail, setUserEmail] = useState<string | null>(null)
   
@@ -582,6 +584,9 @@ export default function ENPPatrolPage() {
       {/* Vacation Form Modal */}
       <VacationForm isOpen={showVacationForm} onClose={closeVacationForm} />
 
+      {/* Privacy Policy Modal */}
+      <PrivacyPolicyModal isOpen={showPrivacyPolicy} onClose={() => setShowPrivacyPolicy(false)} />
+
       <footer className="footer">
         <div style={{ marginBottom: '8px' }}>
           West Inwood Extended Neighborhood Patrol • Member Portal • Secure Access Required
@@ -601,19 +606,24 @@ export default function ENPPatrolPage() {
             Report a Bug
           </a>
           <span style={{ color: '#64748b' }}>•</span>
-          <a
-            href="/privacy"
+          <button
+            onClick={() => setShowPrivacyPolicy(true)}
             style={{
+              background: 'none',
+              border: 'none',
               color: '#93c5fd',
               textDecoration: 'none',
               borderBottom: '1px solid transparent',
-              transition: 'border-color 0.2s'
+              transition: 'border-color 0.2s',
+              cursor: 'pointer',
+              fontSize: '13px',
+              padding: 0
             }}
             onMouseOver={(e) => e.currentTarget.style.borderBottomColor = '#93c5fd'}
             onMouseOut={(e) => e.currentTarget.style.borderBottomColor = 'transparent'}
           >
             Privacy Policy
-          </a>
+          </button>
         </div>
       </footer>
     </div>

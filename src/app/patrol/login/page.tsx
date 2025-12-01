@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import PrivacyPolicyModal from '@/components/PrivacyPolicyModal'
 
 interface LoginFormData {
   email: string
@@ -20,6 +21,7 @@ export default function LoginPage() {
   const [step, setStep] = useState<'email' | 'code'>('email')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false)
   const router = useRouter()
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
@@ -346,18 +348,24 @@ export default function LoginPage() {
           borderTop: '1px solid #e5e7eb',
           textAlign: 'center'
         }}>
-          <a
-            href="/privacy"
+          <button
+            onClick={() => setShowPrivacyPolicy(true)}
             style={{
+              background: 'none',
+              border: 'none',
               color: '#6b7280',
               textDecoration: 'none',
-              fontSize: '13px'
+              fontSize: '13px',
+              cursor: 'pointer',
+              padding: 0
             }}
           >
             Privacy Policy
-          </a>
+          </button>
         </div>
       </div>
+
+      <PrivacyPolicyModal isOpen={showPrivacyPolicy} onClose={() => setShowPrivacyPolicy(false)} />
     </div>
   )
 }
