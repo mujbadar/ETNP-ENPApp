@@ -1,7 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createVacationEvent } from '@/lib/google-calendar'
+import { verifyAuth } from '@/lib/auth'
 
 export async function POST(request: NextRequest) {
+  // Verify authentication
+  const user = verifyAuth(request)
+  if (!user) {
+    return NextResponse.json(
+      { error: 'Authentication required' },
+      { status: 401 }
+    )
+  }
+
   try {
     const body = await request.json()
     const { firstName, lastName, address, startDate, endDate, primaryContact, secondaryContact } = body

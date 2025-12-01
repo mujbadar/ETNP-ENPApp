@@ -586,11 +586,11 @@ export default function ENPPatrolPage() {
         <div style={{ marginBottom: '8px' }}>
           West Inwood Extended Neighborhood Patrol • Member Portal • Secure Access Required
         </div>
-        <div style={{ fontSize: '13px' }}>
-          <a 
-            href="mailto:westinwood75209@gmail.com?subject=Bug Report - Member Portal" 
-            style={{ 
-              color: '#93c5fd', 
+        <div style={{ fontSize: '13px', display: 'flex', gap: '16px', justifyContent: 'center' }}>
+          <a
+            href="mailto:westinwood75209@gmail.com?subject=Bug Report - Member Portal"
+            style={{
+              color: '#93c5fd',
               textDecoration: 'none',
               borderBottom: '1px solid transparent',
               transition: 'border-color 0.2s'
@@ -598,7 +598,21 @@ export default function ENPPatrolPage() {
             onMouseOver={(e) => e.currentTarget.style.borderBottomColor = '#93c5fd'}
             onMouseOut={(e) => e.currentTarget.style.borderBottomColor = 'transparent'}
           >
-            🐛 Report a Bug
+            Report a Bug
+          </a>
+          <span style={{ color: '#64748b' }}>•</span>
+          <a
+            href="/privacy"
+            style={{
+              color: '#93c5fd',
+              textDecoration: 'none',
+              borderBottom: '1px solid transparent',
+              transition: 'border-color 0.2s'
+            }}
+            onMouseOver={(e) => e.currentTarget.style.borderBottomColor = '#93c5fd'}
+            onMouseOut={(e) => e.currentTarget.style.borderBottomColor = 'transparent'}
+          >
+            Privacy Policy
           </a>
         </div>
       </footer>

@@ -339,6 +339,24 @@ export default function LoginPage() {
             </button>
           </form>
         )}
+
+        <div style={{
+          marginTop: '32px',
+          paddingTop: '20px',
+          borderTop: '1px solid #e5e7eb',
+          textAlign: 'center'
+        }}>
+          <a
+            href="/privacy"
+            style={{
+              color: '#6b7280',
+              textDecoration: 'none',
+              fontSize: '13px'
+            }}
+          >
+            Privacy Policy
+          </a>
+        </div>
       </div>
     </div>
   )
