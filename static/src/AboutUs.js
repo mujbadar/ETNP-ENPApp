@@ -153,10 +153,6 @@ const AboutUs = () => {
                   West Inwood resident for 2 years. Passionate about community
                   safety.
                 </p>
-                <div className="member-contact">
-                  <Mail className="icon-sm" />
-                  <span>president@westinwood.org</span>
-                </div>
               </div>
             </div>
 
@@ -171,10 +167,6 @@ const AboutUs = () => {
                   West Inwood resident for 2 years. Passionate about community
                   safety.
                 </p>
-                <div className="member-contact">
-                  <Mail className="icon-sm" />
-                  <span>vicepresident@westinwood.org</span>
-                </div>
               </div>
             </div>
 
@@ -189,10 +181,6 @@ const AboutUs = () => {
                   West Inwood resident for 8 years. Passionate about community
                   safety.
                 </p>
-                <div className="member-contact">
-                  <Mail className="icon-sm" />
-                  <span>secretary@westinwood.org</span>
-                </div>
               </div>
             </div>
           </div>
@@ -218,8 +206,10 @@ const AboutUs = () => {
               <Mail className="contact-icon" />
               <h3 className="h3">Mailing Address</h3>
               <p>
-                5600 W Lovers Ln Suite 116<br />
-                PO Box 537<br />
+                5600 W Lovers Ln Suite 116
+                <br />
+                PO Box 537
+                <br />
                 Dallas, TX 75209
               </p>
             </div>

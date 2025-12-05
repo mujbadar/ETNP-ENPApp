@@ -69,7 +69,7 @@ const CONFIG = {
     },
   ],
   // Financial model inputs
-  homesCount: 79, // update as your roster grows
+  homesCount: 87, // update as your roster grows
 };
 // ---------------------------------------------------------------
 
@@ -405,6 +405,13 @@ function Participation() {
                 <img
                   src="/berk-walters.png"
                   alt="Berk Walters Homes"
+                  className="sponsor-img"
+                />
+              </div>
+              <div className="sponsor-logo">
+                <img
+                  src="/motley-homes.png"
+                  alt="Motley Homes"
                   className="sponsor-img"
                 />
               </div>
