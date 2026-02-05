@@ -69,7 +69,7 @@ const CONFIG = {
     },
   ],
   // Financial model inputs
-  homesCount: 87, // update as your roster grows
+  homesCount: 115, // update as your roster grows
 };
 // ---------------------------------------------------------------
 
