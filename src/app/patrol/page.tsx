@@ -6,6 +6,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 import PatrolScheduleModal from '@/components/PatrolScheduleModal'
 import VacationForm from '@/components/VacationForm'
 import PrivacyPolicyModal from '@/components/PrivacyPolicyModal'
+import MeetingBanner from '@/components/MeetingBanner'
 
 // TypeScript interfaces
 interface DutyStatus {
@@ -47,7 +48,7 @@ export default function ENPPatrolPage() {
     currentEventEnd: undefined,
     nextEventStart: undefined
   })
-  
+
   const [position, setPosition] = useState<PatrolPosition | null>(null)
   const [lastUpdate, setLastUpdate] = useState<string>('')
   const [nextUpdate, setNextUpdate] = useState<string>('')
@@ -58,7 +59,7 @@ export default function ENPPatrolPage() {
   const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [userEmail, setUserEmail] = useState<string | null>(null)
-  
+
   // Map references
   const mapContainer = useRef<HTMLDivElement>(null)
   const mapRef = useRef<maplibregl.Map | null>(null)
@@ -72,18 +73,18 @@ export default function ENPPatrolPage() {
    */
   const fetchStatus = useCallback(async (): Promise<void> => {
     try {
-      const response = await fetch('/api/duty-status', { 
+      const response = await fetch('/api/duty-status', {
         cache: 'no-store',
         headers: {
           'Accept': 'application/json'
         }
       })
-      
+
       if (!response.ok) {
         const errorData: ApiError = await response.json()
         throw new Error(errorData.error || `HTTP ${response.status}`)
       }
-      
+
       const data: DutyStatus = await response.json()
       setStatus(data)
       setError(null)
@@ -100,12 +101,12 @@ export default function ENPPatrolPage() {
    * Uses ref to avoid recreating function on every status change
    */
   const statusRef = useRef(status)
-  
+
   // Keep ref in sync with latest status
   useEffect(() => {
     statusRef.current = status
   }, [status])
-  
+
   const fetchPosition = useCallback(async (): Promise<void> => {
     // Only fetch position if officer is actually on duty (calendar + geofencing)
     if (!statusRef.current.actuallyOnDuty) {
@@ -116,34 +117,34 @@ export default function ENPPatrolPage() {
     }
 
     try {
-      const response = await fetch('/api/position', { 
+      const response = await fetch('/api/position', {
         cache: 'no-store',
         headers: {
           'Accept': 'application/json'
         }
       })
-      
+
       if (!response.ok) {
         const errorData: ApiError = await response.json()
         throw new Error(errorData.error || `HTTP ${response.status}`)
       }
-      
+
       const data: PatrolPosition = await response.json()
       setPosition(data)
-      
+
       // Calculate cache-aware update times based on actual data fetch time
       const dataTime = new Date(data.at)
       setLastUpdate(dataTime.toLocaleTimeString())
-      
+
       // Next position update will be 2 minutes from when this data was fetched
       const nextPositionUpdate = new Date(dataTime.getTime() + 2 * 60 * 1000)
       setNextUpdate(nextPositionUpdate.toLocaleTimeString())
-      
+
       setError(null)
-      
+
       // Update map marker if position is valid
       updateMapMarker(data)
-      
+
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch position'
       // Only set error if there isn't one already
@@ -162,52 +163,52 @@ export default function ENPPatrolPage() {
       }
 
       try {
-      // Create map instance with center on Dallas patrol area
-      mapRef.current = new maplibregl.Map({
-        container: mapContainer.current,
-        style: {
-          version: 8,
-          sources: {
-            'osm': {
-              type: 'raster',
-              tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
-              tileSize: 256,
-              attribution: '&copy; OpenStreetMap contributors'
-            }
+        // Create map instance with center on Dallas patrol area
+        mapRef.current = new maplibregl.Map({
+          container: mapContainer.current,
+          style: {
+            version: 8,
+            sources: {
+              'osm': {
+                type: 'raster',
+                tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+                tileSize: 256,
+                attribution: '&copy; OpenStreetMap contributors'
+              }
+            },
+            layers: [
+              {
+                id: 'osm',
+                type: 'raster',
+                source: 'osm'
+              }
+            ]
           },
-          layers: [
-            {
-              id: 'osm',
-              type: 'raster',
-              source: 'osm'
-            }
-          ]
-        },
-        center: [-96.7850, 32.8350], // Center on Dallas patrol area
-        zoom: 14,
-        attributionControl: false,
-        logoPosition: 'bottom-left',
-        minZoom: 10,
-        maxZoom: 18
-      })
+          center: [-96.7850, 32.8350], // Center on Dallas patrol area
+          zoom: 14,
+          attributionControl: false,
+          logoPosition: 'bottom-left',
+          minZoom: 10,
+          maxZoom: 18
+        })
 
-      // Add zoom controls
-      mapRef.current.addControl(new maplibregl.NavigationControl({}), 'top-right')
+        // Add zoom controls
+        mapRef.current.addControl(new maplibregl.NavigationControl({}), 'top-right')
 
-      // Create and add marker
-      updateMapMarker(initialPosition)
+        // Create and add marker
+        updateMapMarker(initialPosition)
 
-      // Handle map resize
-      mapRef.current.on('load', () => {
-        if (mapRef.current) {
-          mapRef.current.resize()
-        }
-      })
+        // Handle map resize
+        mapRef.current.on('load', () => {
+          if (mapRef.current) {
+            mapRef.current.resize()
+          }
+        })
 
-      // Handle map errors
-      mapRef.current.on('error', (e) => {
-        console.error('Map error:', e)
-      })
+        // Handle map errors
+        mapRef.current.on('error', (e) => {
+          console.error('Map error:', e)
+        })
 
       } catch (err) {
         console.error('Map initialization error:', err)
@@ -250,13 +251,13 @@ export default function ENPPatrolPage() {
    */
   const formatTime = (isoString?: string): string => {
     if (!isoString) return 'Unknown'
-    
+
     try {
       const date = new Date(isoString)
-      return date.toLocaleTimeString([], { 
-        hour: '2-digit', 
+      return date.toLocaleTimeString([], {
+        hour: '2-digit',
         minute: '2-digit',
-        hour12: true 
+        hour12: true
       })
     } catch {
       return 'Invalid time'
@@ -268,30 +269,30 @@ export default function ENPPatrolPage() {
    */
   const formatDateTime = (isoString?: string): string => {
     if (!isoString) return 'Unknown'
-    
+
     try {
       const date = new Date(isoString)
       const now = new Date()
       const hoursUntil = (date.getTime() - now.getTime()) / (1000 * 60 * 60)
-      
+
       // If within 18 hours, show just the time
       if (hoursUntil <= 18) {
-        return date.toLocaleTimeString([], { 
-          hour: '2-digit', 
+        return date.toLocaleTimeString([], {
+          hour: '2-digit',
           minute: '2-digit',
-          hour12: true 
+          hour12: true
         })
       } else {
         // For shifts beyond 18 hours, show date and time
-        const dateStr = date.toLocaleDateString([], { 
+        const dateStr = date.toLocaleDateString([], {
           weekday: 'short',
-          month: 'short', 
+          month: 'short',
           day: 'numeric'
         })
-        const timeStr = date.toLocaleTimeString([], { 
-          hour: '2-digit', 
+        const timeStr = date.toLocaleTimeString([], {
+          hour: '2-digit',
           minute: '2-digit',
-          hour12: true 
+          hour12: true
         })
         return `${dateStr} at ${timeStr}`
       }
@@ -336,7 +337,7 @@ export default function ENPPatrolPage() {
       const response = await fetch('/api/auth/me', {
         credentials: 'include'
       })
-      
+
       if (response.ok) {
         const data = await response.json()
         setIsAuthenticated(true)
@@ -391,7 +392,7 @@ export default function ENPPatrolPage() {
     const statusInterval = setInterval(() => {
       fetchStatus()
     }, 60000) // Every minute
-    
+
     const positionInterval = setInterval(() => {
       fetchPosition()
     }, 120000) // Every 2 minutes
@@ -421,9 +422,9 @@ export default function ENPPatrolPage() {
         <div className="header-content">
           <div className="header-top">
             <div className="header-brand">
-              <img 
-                src="/west-inwood-logo.svg" 
-                alt="West Inwood" 
+              <img
+                src="/west-inwood-logo.svg"
+                alt="West Inwood"
                 className="header-logo"
               />
               <div className="header-title-group">
@@ -440,18 +441,18 @@ export default function ENPPatrolPage() {
               </div>
             )}
           </div>
-          
+
           <div className="header-status">
             {status.officerName && (
               <p className="officer-name">
                 Officer {status.officerName}
               </p>
             )}
-            
+
             <div className={`status-pill ${status.actuallyOnDuty ? 'on-duty' : status.onDuty ? 'scheduled' : 'off-duty'}`}>
               {status.actuallyOnDuty ? '✓ ON DUTY' : status.onDuty ? '⏱ SCHEDULED' : '○ OFF DUTY'}
             </div>
-            
+
             <p className="status-text">
               {loading ? (
                 'Loading status...'
@@ -462,7 +463,7 @@ export default function ENPPatrolPage() {
                   const nextShiftDate = new Date(status.nextEventStart)
                   const now = new Date()
                   const hoursUntil = (nextShiftDate.getTime() - now.getTime()) / (1000 * 60 * 60)
-                  
+
                   // Within 18 hours: use "starts at" with time only
                   if (hoursUntil <= 18) {
                     return `Next shift starts at ${formatDateTime(status.nextEventStart)}`
@@ -485,34 +486,36 @@ export default function ENPPatrolPage() {
         </div>
       </header>
 
+      <MeetingBanner />
+
       <div className="main-content">
         <div className="map-container">
-        {loading && !position ? (
-          <div className="map-loading">
-            Loading patrol location...
-          </div>
-        ) : status.onDuty && position ? (
-          <>
-            <div 
-              ref={mapContainer} 
-              style={{ 
-                width: '100%', 
-                height: '100%'
-              }} 
-            />
-          </>
-        ) : !status.actuallyOnDuty ? (
-          <div className="map-loading">
-            {!status.onDuty 
-              ? '🚫 Officer off duty - No location tracking'
-              : '⏳ Scheduled but not yet on patrol'
-            }
-          </div>
-        ) : (
-          <div className="map-loading">
-            No location data available
-          </div>
-        )}
+          {loading && !position ? (
+            <div className="map-loading">
+              Loading patrol location...
+            </div>
+          ) : status.onDuty && position ? (
+            <>
+              <div
+                ref={mapContainer}
+                style={{
+                  width: '100%',
+                  height: '100%'
+                }}
+              />
+            </>
+          ) : !status.actuallyOnDuty ? (
+            <div className="map-loading">
+              {!status.onDuty
+                ? '🚫 Officer off duty - No location tracking'
+                : '⏳ Scheduled but not yet on patrol'
+              }
+            </div>
+          ) : (
+            <div className="map-loading">
+              No location data available
+            </div>
+          )}
         </div>
 
         {status.actuallyOnDuty && lastUpdate && (
@@ -520,54 +523,54 @@ export default function ENPPatrolPage() {
             Officer location is delayed for security purposes.
           </div>
         )}
-        
+
         {status.onDuty && !status.actuallyOnDuty && (
           <div className="last-update" style={{ color: '#888' }}>
             {status.statusMessage || 'Location tracking will begin when patrol starts'}
           </div>
         )}
-        
+
         {!status.onDuty && (
           <div>
           </div>
         )}
 
         <div className="emergency-notice">
-          🚨 {status.onDuty ? 
-            `For emergencies call 911. Officer ${status.officerName} will respond to 911 calls for our neighborhood` : 
+          🚨 {status.onDuty ?
+            `For emergencies call 911. Officer ${status.officerName} will respond to 911 calls for our neighborhood` :
             "For emergencies call 911 • Off duty response time: 24-48 hours for voicemails/texts"
           }
         </div>
-        
+
         <div className="non-emergency-contacts">
           <h3>Non-Emergency Contact</h3>
-          
+
           <div className="action-buttons">
-            <a 
+            <a
               href={`tel:${patrolPhone}`}
               className="action-btn"
               aria-label={`Call ${status.officerName || 'Officer'}`}
             >
               📞 Call ENP Officer
             </a>
-            
-            <a 
+
+            <a
               href={`sms:${patrolPhone}?body=Hello%20officer%20${status.officerName || 'Officer'}`}
               className="action-btn"
               aria-label={`Send SMS to ${status.officerName || 'Officer'}`}
             >
               💬 Text ENP Officer
             </a>
-            
-            <button 
+
+            <button
               onClick={openCalendarModal}
               className="action-btn white-border"
               aria-label="View patrol schedule"
             >
               📅 View Patrol Schedule
             </button>
-            
-            <button 
+
+            <button
               onClick={openVacationForm}
               className="action-btn white-border"
               aria-label="Submit vacation notice"
@@ -580,7 +583,7 @@ export default function ENPPatrolPage() {
 
       {/* Calendar Modal */}
       <PatrolScheduleModal isOpen={showCalendar} onClose={closeCalendarModal} />
-      
+
       {/* Vacation Form Modal */}
       <VacationForm isOpen={showVacationForm} onClose={closeVacationForm} />
 

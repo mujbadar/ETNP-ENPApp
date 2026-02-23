@@ -10,6 +10,7 @@ import "./App.css";
 import ContactFormModal from "./ContactFormModal";
 import NeighborhoodMap from "./NeighborhoodMap";
 import AboutUs from "./AboutUs";
+import MeetingBanner from "./MeetingBanner";
 import {
   ShieldCheck,
   PhoneCall,
@@ -642,6 +643,7 @@ export default function App() {
     <Router>
       <div className="page">
         <Navbar onOpenContactModal={openContactModal} />
+        <MeetingBanner />
         <Routes>
           <Route
             path="/"

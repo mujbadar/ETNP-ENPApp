@@ -377,7 +377,7 @@ body {
   .header-email {
     display: block;
   }
-  
+
   .action-buttons {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -387,74 +387,323 @@ body {
   .main-content {
     padding: 20px 16px;
   }
-  
+
   .header-content {
     padding: 16px;
   }
-  
+
   .header-email {
     display: none;
   }
-  
+
   .header-logo {
     height: 42px;
     width: 42px;
   }
-  
+
   .header h1 {
     font-size: 18px;
   }
-  
+
   .header-subtitle {
     font-size: 11px;
   }
-  
+
   .logout-btn {
     padding: 7px 14px;
     font-size: 11px;
   }
-  
+
   .map-container {
     min-height: 280px;
   }
-  
+
   .action-buttons {
     grid-template-columns: 1fr;
   }
-  
+
   .emergency-notice {
     padding: 16px 18px;
     font-size: 13px;
   }
 }
 
+/* ═══════════ Meeting Announcement Banner ═══════════ */
+.mtg-banner {
+  position: relative;
+  z-index: 40;
+  background: linear-gradient(135deg, #b91c1c 0%, #dc2626 40%, #ea580c 100%);
+  color: #fff;
+  overflow: hidden;
+  transition: box-shadow 0.35s ease;
+  box-shadow: 0 4px 16px rgba(220, 38, 38, 0.35);
+}
+
+.mtg-banner:hover,
+.mtg-banner--expanded {
+  box-shadow: 0 8px 32px rgba(220, 38, 38, 0.5);
+}
+
+.mtg-banner__strip {
+  cursor: pointer;
+  padding: 12px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.mtg-banner__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 6px 16px;
+  border-radius: 999px;
+  white-space: nowrap;
+  animation: mtg-pulse 2s ease-in-out infinite;
+}
+
+@keyframes mtg-pulse {
+
+  0%,
+  100% {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  50% {
+    background: rgba(255, 255, 255, 0.42);
+  }
+}
+
+.mtg-banner__headline {
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 1;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.mtg-banner__chevron {
+  transition: transform 0.3s ease;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.mtg-banner__chevron--up {
+  transform: rotate(180deg);
+}
+
+.mtg-banner__panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
+  opacity: 0;
+}
+
+.mtg-banner--expanded .mtg-banner__panel {
+  max-height: 700px;
+  opacity: 1;
+}
+
+.mtg-banner__panel-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 32px 24px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .mtg-banner__panel-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+}
+
+.mtg-banner__map {
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 200px;
+  background: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.mtg-banner__map iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+}
+
+.mtg-banner__details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+}
+
+.mtg-banner__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.mtg-banner__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mtg-banner__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  opacity: 0.92;
+  font-weight: 500;
+}
+
+.mtg-banner__address {
+  font-size: 12px;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.mtg-banner__desc {
+  font-size: 13px;
+  line-height: 1.55;
+  opacity: 0.88;
+  margin: 4px 0 8px;
+}
+
+.mtg-banner__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.mtg-banner__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.mtg-banner__btn--google {
+  background: #fff;
+  color: #991b1b;
+  font-weight: 700;
+}
+
+.mtg-banner__btn--google:hover {
+  background: #fef2f2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.mtg-banner__btn--ics {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.mtg-banner__btn--ics:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: translateY(-2px);
+}
+
+.mtg-banner__btn--directions {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.mtg-banner__btn--directions:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 767px) {
+  .mtg-banner__strip {
+    padding: 8px 16px;
+  }
+
+  .mtg-banner__headline {
+    font-size: 11px;
+  }
+
+  .mtg-banner__title {
+    font-size: 1.05rem;
+  }
+
+  .mtg-banner__panel-inner {
+    padding: 0 16px 20px;
+  }
+
+  .mtg-banner__map {
+    min-height: 160px;
+  }
+
+  .mtg-banner__map iframe {
+    min-height: 160px;
+  }
+
+  .mtg-banner__actions {
+    flex-direction: column;
+  }
+
+  .mtg-banner__btn {
+    justify-content: center;
+  }
+}
+
+/* ═══════════ End Meeting Banner ═══════════ */
+
 /* Small mobile */
 @media (max-width: 480px) {
   .main-content {
     padding: 16px 12px;
   }
-  
+
   .header-content {
     padding: 14px 12px;
   }
-  
+
   .header h1 {
     font-size: 17px;
   }
-  
+
   .header-logo {
     height: 40px;
     width: 40px;
   }
-  
+
   .header-subtitle {
     font-size: 10px;
   }
-  
+
   .map-container {
     min-height: 250px;
   }
-  
+
   .action-btn {
     padding: 14px 20px;
     font-size: 14px;
