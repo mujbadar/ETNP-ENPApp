@@ -18,7 +18,8 @@ const CACHE_DURATION = 5 * 60 * 1000 // 5 minutes - faster refresh for better se
 
 /**
  * Fetch authorized emails from Google Spreadsheet
- * Reads Primary Contact Email (H) and Secondary Contact Email (I) starting at row 2
+ * Reads Primary Contact Email (H), Secondary Contact Email (I), and PMT Received (V) starting at row 2.
+ * Only emails whose row has PMT Received = "Y" or "y" are considered authorized.
  */
 export async function getAuthorizedEmails(): Promise<Set<string>> {
   // Check cache first
@@ -30,7 +31,7 @@ export async function getAuthorizedEmails(): Promise<Set<string>> {
 
   try {
     const spreadsheetId = '1bylYIq5PA_ShPzBEUhIXEVkU7Z8JLEColZ0lP8ViohA'
-    const range = 'Form Responses 1!H2:I' // Columns H (Primary Email) and I (Secondary Email) starting from row 2
+    const range = 'Form Responses 1!H2:V' // H (Primary Email), I (Secondary Email), through V (PMT Received)
 
     console.log('Fetching fresh emails from Google Sheets...')
     
@@ -49,21 +50,25 @@ export async function getAuthorizedEmails(): Promise<Set<string>> {
     const values = response.data.values || []
     const emails = new Set<string>()
 
-    // Process each row in columns H and I
+    const PMT_RECEIVED_INDEX = 14 // Column V is 14 columns after H (H=0, I=1, ..., V=14)
+
     for (const row of values) {
-      // Check column H - Primary Contact Email (index 0)
+      const pmtReceived = (row[PMT_RECEIVED_INDEX] || '').toString().trim().toLowerCase()
+      if (pmtReceived !== 'y') {
+        continue
+      }
+
+      // Column H - Primary Contact Email (index 0)
       if (row[0] && typeof row[0] === 'string') {
         const email = row[0].trim().toLowerCase()
-        // Basic email validation
         if (email.includes('@') && email.includes('.')) {
           emails.add(email)
         }
       }
       
-      // Check column I - Secondary Contact Email (index 1)
+      // Column I - Secondary Contact Email (index 1)
       if (row[1] && typeof row[1] === 'string') {
         const email = row[1].trim().toLowerCase()
-        // Basic email validation
         if (email.includes('@') && email.includes('.')) {
           emails.add(email)
         }

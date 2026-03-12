@@ -35,11 +35,11 @@ export async function POST(request: NextRequest): Promise<NextResponse<LoginResp
       )
     }
 
-    // Check if email is authorized (from Google Spreadsheet)
+    // Check if email is authorized (from Google Spreadsheet) and payment received
     const isAuthorized = await isEmailAuthorized(email)
     if (!isAuthorized) {
       return NextResponse.json(
-        { success: false, message: 'Email not authorized' },
+        { success: false, message: 'Email not authorized. Please ensure your registration is complete and payment has been received.' },
         { status: 403 }
       )
     }
