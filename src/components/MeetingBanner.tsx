@@ -79,10 +79,8 @@ export default function MeetingBanner() {
             {/* ── Block Party Banner ── */}
             <div
                 className={`mtg-banner mtg-banner--party ${expanded ? 'mtg-banner--expanded' : ''}`}
-                onMouseEnter={() => setExpanded(true)}
-                onMouseLeave={() => setExpanded(false)}
             >
-                <div className="mtg-banner__strip" onClick={() => setExpanded(!expanded)}>
+                <div className="mtg-banner__strip" onClick={() => setExpanded(prev => !prev)}>
                     <span className="mtg-banner__badge">🎉 Block Party</span>
                     <span className="mtg-banner__headline">
                         <strong>{BLOCK_PARTY.displayDate}</strong> &nbsp;·&nbsp; {BLOCK_PARTY.displayTime} &nbsp;·&nbsp; Location TBA
