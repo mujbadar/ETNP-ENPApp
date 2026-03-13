@@ -2,48 +2,46 @@
 
 import { useState } from 'react'
 
-// ── Configure meeting details here ──────────────────────────────────
-const MEETING = {
-    title: 'West Inwood Community Meeting',
-    date: '2026-03-11', // YYYY-MM-DD
-    timeStart: '18:00', // 24-hr
-    timeEnd: '19:00',
-    displayDate: 'Wednesday, March 11, 2026',
-    displayTime: '6:00 PM',
-    location: 'Providence Christian School',
-    address: '5002 W Lovers Ln, Dallas, TX 75209',
+const BLOCK_PARTY = {
+    title: 'West Inwood Community Block Party',
+    date: '2026-05-17',
+    timeStart: '16:00',
+    timeEnd: '18:00',
+    displayDate: 'Sunday, May 17, 2026',
+    displayTime: '4:00 PM – 6:00 PM',
+    location: 'TBA',
+    address: '',
     description:
-        'Join your neighbors for our upcoming West Inwood community meeting. We\'ll discuss ENP updates, neighborhood safety, and upcoming community events.',
-    mapZoom: 16,
+        'Save the date! Join your neighbors for our upcoming West Inwood community block party. Address details coming soon!',
 }
 
 function getGoogleCalendarUrl(): string {
-    const start = `${MEETING.date.replace(/-/g, '')}T${MEETING.timeStart.replace(':', '')}00`
-    const end = `${MEETING.date.replace(/-/g, '')}T${MEETING.timeEnd.replace(':', '')}00`
+    const start = `${BLOCK_PARTY.date.replace(/-/g, '')}T${BLOCK_PARTY.timeStart.replace(':', '')}00`
+    const end = `${BLOCK_PARTY.date.replace(/-/g, '')}T${BLOCK_PARTY.timeEnd.replace(':', '')}00`
     const params = new URLSearchParams({
         action: 'TEMPLATE',
-        text: MEETING.title,
+        text: BLOCK_PARTY.title,
         dates: `${start}/${end}`,
-        details: MEETING.description,
-        location: `${MEETING.location}, ${MEETING.address}`,
+        details: BLOCK_PARTY.description,
+        location: BLOCK_PARTY.location,
         ctz: 'America/Chicago',
     })
     return `https://calendar.google.com/calendar/render?${params.toString()}`
 }
 
 function downloadICS(): void {
-    const start = `${MEETING.date.replace(/-/g, '')}T${MEETING.timeStart.replace(':', '')}00`
-    const end = `${MEETING.date.replace(/-/g, '')}T${MEETING.timeEnd.replace(':', '')}00`
+    const start = `${BLOCK_PARTY.date.replace(/-/g, '')}T${BLOCK_PARTY.timeStart.replace(':', '')}00`
+    const end = `${BLOCK_PARTY.date.replace(/-/g, '')}T${BLOCK_PARTY.timeEnd.replace(':', '')}00`
     const ics = [
         'BEGIN:VCALENDAR',
         'VERSION:2.0',
-        'PRODID:-//West Inwood//Meeting//EN',
+        'PRODID:-//West Inwood//Block Party//EN',
         'BEGIN:VEVENT',
         `DTSTART;TZID=America/Chicago:${start}`,
         `DTEND;TZID=America/Chicago:${end}`,
-        `SUMMARY:${MEETING.title}`,
-        `DESCRIPTION:${MEETING.description}`,
-        `LOCATION:${MEETING.location}\\, ${MEETING.address}`,
+        `SUMMARY:${BLOCK_PARTY.title}`,
+        `DESCRIPTION:${BLOCK_PARTY.description}`,
+        `LOCATION:${BLOCK_PARTY.location}`,
         'END:VEVENT',
         'END:VCALENDAR',
     ].join('\r\n')
@@ -51,109 +49,101 @@ function downloadICS(): void {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = 'west-inwood-meeting.ics'
+    a.download = 'west-inwood-block-party.ics'
     a.click()
     URL.revokeObjectURL(url)
 }
+
+const VOLUNTEER_FORM_URL =
+    'https://docs.google.com/forms/d/e/1FAIpQLSdScb7fM-PAHvnfpTTykWByjE_X-EiK9hjieX4icXBxCYsGtA/viewform?usp=sharing&ouid=109631430131525759517'
 
 export default function MeetingBanner() {
     const [expanded, setExpanded] = useState(false)
 
     return (
-        <div
-            className={`mtg-banner ${expanded ? 'mtg-banner--expanded' : ''}`}
-            onMouseEnter={() => setExpanded(true)}
-            onMouseLeave={() => setExpanded(false)}
-        >
-            {/* Collapsed strip */}
-            <div className="mtg-banner__strip" onClick={() => setExpanded(!expanded)}>
-                <span className="mtg-banner__badge">📣 Upcoming Meeting</span>
-                <span className="mtg-banner__headline">
-                    <strong>{MEETING.displayDate}</strong> &nbsp;·&nbsp; {MEETING.displayTime} &nbsp;·&nbsp; {MEETING.location}
+        <>
+            {/* ── Volunteer Interest Banner ── */}
+            <a
+                href={VOLUNTEER_FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="vol-banner"
+            >
+                <span className="vol-banner__icon">🤝</span>
+                <span className="vol-banner__text">
+                    <strong>Interested in volunteering?</strong> Board &amp; volunteer roles are open — sign up by March 31!
                 </span>
-                <svg
-                    className={`mtg-banner__chevron ${expanded ? 'mtg-banner__chevron--up' : ''}`}
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                >
-                    <polyline points="6 9 12 15 18 9" />
-                </svg>
-            </div>
+                <span className="vol-banner__cta">Fill Out Interest Form →</span>
+            </a>
 
-            {/* Expanded panel */}
-            <div className="mtg-banner__panel">
-                <div className="mtg-banner__panel-inner">
-                    {/* Map */}
-                    <div className="mtg-banner__map">
-                        {expanded && (
-                            <iframe
-                                title="Meeting location map"
-                                width="100%"
-                                height="100%"
-                                style={{ border: 0, borderRadius: '12px' }}
-                                loading="lazy"
-                                referrerPolicy="no-referrer-when-downgrade"
-                                src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${encodeURIComponent(MEETING.address)}&zoom=${MEETING.mapZoom}`}
-                                allowFullScreen
-                            />
-                        )}
-                    </div>
+            {/* ── Block Party Banner ── */}
+            <div
+                className={`mtg-banner mtg-banner--party ${expanded ? 'mtg-banner--expanded' : ''}`}
+                onMouseEnter={() => setExpanded(true)}
+                onMouseLeave={() => setExpanded(false)}
+            >
+                <div className="mtg-banner__strip" onClick={() => setExpanded(!expanded)}>
+                    <span className="mtg-banner__badge">🎉 Block Party</span>
+                    <span className="mtg-banner__headline">
+                        <strong>{BLOCK_PARTY.displayDate}</strong> &nbsp;·&nbsp; {BLOCK_PARTY.displayTime} &nbsp;·&nbsp; Location TBA
+                    </span>
+                    <svg
+                        className={`mtg-banner__chevron ${expanded ? 'mtg-banner__chevron--up' : ''}`}
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </div>
 
-                    {/* Details + Actions */}
-                    <div className="mtg-banner__details">
-                        <h3 className="mtg-banner__title">{MEETING.title}</h3>
+                <div className="mtg-banner__panel">
+                    <div className="mtg-banner__panel-inner mtg-banner__panel-inner--centered">
+                        <div className="mtg-banner__details">
+                            <h3 className="mtg-banner__title">{BLOCK_PARTY.title}</h3>
 
-                        <div className="mtg-banner__meta">
-                            <span className="mtg-banner__meta-item">
-                                📅 {MEETING.displayDate}
-                            </span>
-                            <span className="mtg-banner__meta-item">
-                                🕕 {MEETING.displayTime}
-                            </span>
-                            <span className="mtg-banner__meta-item">
-                                📍 {MEETING.location}
-                            </span>
-                        </div>
+                            <div className="mtg-banner__meta">
+                                <span className="mtg-banner__meta-item">
+                                    📅 {BLOCK_PARTY.displayDate}
+                                </span>
+                                <span className="mtg-banner__meta-item">
+                                    🕓 {BLOCK_PARTY.displayTime}
+                                </span>
+                                <span className="mtg-banner__meta-item">
+                                    📍 Address details coming soon!
+                                </span>
+                            </div>
 
-                        <p className="mtg-banner__address">{MEETING.address}</p>
-                        <p className="mtg-banner__desc">{MEETING.description}</p>
+                            <p className="mtg-banner__desc">{BLOCK_PARTY.description}</p>
 
-                        <div className="mtg-banner__actions">
-                            <a
-                                href={getGoogleCalendarUrl()}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="mtg-banner__btn mtg-banner__btn--google"
-                            >
-                                📅 Add to Google Calendar
-                            </a>
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation()
-                                    downloadICS()
-                                }}
-                                className="mtg-banner__btn mtg-banner__btn--ics"
-                            >
-                                📅 Download .ics
-                            </button>
-                            <a
-                                href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(MEETING.address)}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="mtg-banner__btn mtg-banner__btn--directions"
-                            >
-                                📍 Get Directions
-                            </a>
+                            <div className="mtg-banner__actions">
+                                <a
+                                    href={getGoogleCalendarUrl()}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="mtg-banner__btn mtg-banner__btn--google"
+                                >
+                                    📅 Add to Google Calendar
+                                </a>
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        downloadICS()
+                                    }}
+                                    className="mtg-banner__btn mtg-banner__btn--ics"
+                                >
+                                    📅 Download .ics
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }

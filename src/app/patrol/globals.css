@@ -428,7 +428,7 @@ body {
   }
 }
 
-/* ═══════════ Meeting Announcement Banner ═══════════ */
+/* ═══════════ Event Announcement Banner ═══════════ */
 .mtg-banner {
   position: relative;
   z-index: 40;
@@ -439,8 +439,18 @@ body {
   box-shadow: 0 4px 16px rgba(220, 38, 38, 0.35);
 }
 
+.mtg-banner--party {
+  background: linear-gradient(135deg, #b91c1c 0%, #dc2626 40%, #ea580c 100%);
+  box-shadow: 0 4px 16px rgba(220, 38, 38, 0.35);
+}
+
 .mtg-banner:hover,
 .mtg-banner--expanded {
+  box-shadow: 0 8px 32px rgba(220, 38, 38, 0.5);
+}
+
+.mtg-banner--party:hover,
+.mtg-banner--party.mtg-banner--expanded {
   box-shadow: 0 8px 32px rgba(220, 38, 38, 0.5);
 }
 
@@ -643,11 +653,23 @@ body {
 
 @media (max-width: 767px) {
   .mtg-banner__strip {
-    padding: 8px 16px;
+    padding: 6px 12px;
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
+
+  .mtg-banner__badge {
+    font-size: 10px;
+    padding: 3px 10px;
+    letter-spacing: 0.05em;
   }
 
   .mtg-banner__headline {
     font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
   }
 
   .mtg-banner__title {
@@ -675,7 +697,118 @@ body {
   }
 }
 
-/* ═══════════ End Meeting Banner ═══════════ */
+.mtg-banner__panel-inner--centered {
+  grid-template-columns: 1fr;
+  max-width: 640px;
+  text-align: center;
+}
+
+.mtg-banner__panel-inner--centered .mtg-banner__meta {
+  align-items: center;
+}
+
+.mtg-banner__panel-inner--centered .mtg-banner__actions {
+  justify-content: center;
+}
+
+.mtg-banner--party .mtg-banner__badge {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.mtg-banner--party .mtg-banner__btn--google {
+  color: #991b1b;
+}
+
+.mtg-banner--party .mtg-banner__btn--google:hover {
+  background: #fef2f2;
+}
+
+/* ═══════════ Volunteer Interest Banner ═══════════ */
+.vol-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 24px;
+  background: linear-gradient(135deg, #fffbeb 0%, #fef9c3 50%, #fef3c7 100%);
+  color: #78350f;
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 1.4;
+  transition: background 0.25s ease, box-shadow 0.25s ease;
+  border-bottom: 1px solid #fde68a;
+}
+
+.vol-banner:hover {
+  background: linear-gradient(135deg, #fef9c3 0%, #fde68a 50%, #fcd34d 100%);
+  box-shadow: 0 2px 12px rgba(251, 191, 36, 0.3);
+}
+
+.vol-banner__icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.vol-banner__text {
+  text-align: center;
+}
+
+.vol-banner__text strong {
+  color: #92400e;
+}
+
+.vol-banner__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #92400e;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 5px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.vol-banner:hover .vol-banner__cta {
+  background: #78350f;
+  transform: translateX(2px);
+}
+
+@media (max-width: 767px) {
+  .vol-banner {
+    padding: 6px 12px;
+    font-size: 11px;
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+
+  .vol-banner__icon {
+    font-size: 14px;
+  }
+
+  .vol-banner__text {
+    text-align: left;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .vol-banner__cta {
+    font-size: 9px;
+    padding: 3px 10px;
+    flex-shrink: 0;
+  }
+}
+
+/* ═══════════ End Event Banners ═══════════ */
 
 /* Small mobile */
 @media (max-width: 480px) {
