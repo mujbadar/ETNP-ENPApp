@@ -10,7 +10,7 @@ import "./App.css";
 import ContactFormModal from "./ContactFormModal";
 import NeighborhoodMap from "./NeighborhoodMap";
 import AboutUs from "./AboutUs";
-import MeetingBanner from "./MeetingBanner";
+// import MeetingBanner from "./MeetingBanner";
 import {
   ShieldCheck,
   PhoneCall,
@@ -70,7 +70,7 @@ const CONFIG = {
     },
   ],
   // Financial model inputs
-  homesCount: 115, // update as your roster grows
+  homesCount: 128, // update as your roster grows
 };
 // ---------------------------------------------------------------
 
@@ -85,7 +85,7 @@ function Navbar({ onOpenContactModal }) {
       e.preventDefault();
       window.open(
         "https://docs.google.com/forms/d/e/1FAIpQLSdHCrrlZiFKjEp7Zy1HCX2KSqZhMziOFprR5_cjF-xWinqrtg/viewform?usp=header",
-        "_blank"
+        "_blank",
       );
     } else if (isHomePage) {
       e.preventDefault();
@@ -236,7 +236,7 @@ function Hero({ onOpenContactModal }) {
             onClick={() =>
               window.open(
                 "https://docs.google.com/forms/d/e/1FAIpQLSdHCrrlZiFKjEp7Zy1HCX2KSqZhMziOFprR5_cjF-xWinqrtg/viewform?usp=header",
-                "_blank"
+                "_blank",
               )
             }
             className="btn btn-primary hero-cta-main"
@@ -545,7 +545,7 @@ function Join({ onOpenContactModal }) {
             onClick={() =>
               window.open(
                 "https://docs.google.com/forms/d/e/1FAIpQLSdHCrrlZiFKjEp7Zy1HCX2KSqZhMziOFprR5_cjF-xWinqrtg/viewform?usp=header",
-                "_blank"
+                "_blank",
               )
             }
             className="btn btn-primary btn-large"
@@ -643,7 +643,7 @@ export default function App() {
     <Router>
       <div className="page">
         <Navbar onOpenContactModal={openContactModal} />
-        <MeetingBanner />
+        {/* <MeetingBanner /> */}
         <Routes>
           <Route
             path="/"
