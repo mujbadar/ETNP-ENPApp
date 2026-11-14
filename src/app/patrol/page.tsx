@@ -6,7 +6,6 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 import PatrolScheduleModal from '@/components/PatrolScheduleModal'
 import VacationForm from '@/components/VacationForm'
 import PrivacyPolicyModal from '@/components/PrivacyPolicyModal'
-import MeetingBanner from '@/components/MeetingBanner'
 
 // TypeScript interfaces
 interface DutyStatus {
@@ -485,8 +484,6 @@ export default function ENPPatrolPage() {
           </div>
         </div>
       </header>
-
-      <MeetingBanner />
 
       <div className="main-content">
         <div className="map-container">

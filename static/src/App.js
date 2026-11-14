@@ -10,7 +10,6 @@ import "./App.css";
 import ContactFormModal from "./ContactFormModal";
 import NeighborhoodMap from "./NeighborhoodMap";
 import AboutUs from "./AboutUs";
-// import MeetingBanner from "./MeetingBanner";
 import {
   ShieldCheck,
   PhoneCall,
@@ -84,7 +83,7 @@ function Navbar({ onOpenContactModal }) {
     if (isAboutPage) {
       e.preventDefault();
       window.open(
-        "https://docs.google.com/forms/d/e/1FAIpQLSdHCrrlZiFKjEp7Zy1HCX2KSqZhMziOFprR5_cjF-xWinqrtg/viewform?usp=header",
+        "https://www.zeffy.com/en-US/ticketing/membership-renewal-17",
         "_blank",
       );
     } else if (isHomePage) {
@@ -235,7 +234,7 @@ function Hero({ onOpenContactModal }) {
           <button
             onClick={() =>
               window.open(
-                "https://docs.google.com/forms/d/e/1FAIpQLSdHCrrlZiFKjEp7Zy1HCX2KSqZhMziOFprR5_cjF-xWinqrtg/viewform?usp=header",
+                "https://www.zeffy.com/en-US/ticketing/membership-renewal-17",
                 "_blank",
               )
             }
@@ -544,7 +543,7 @@ function Join({ onOpenContactModal }) {
           <button
             onClick={() =>
               window.open(
-                "https://docs.google.com/forms/d/e/1FAIpQLSdHCrrlZiFKjEp7Zy1HCX2KSqZhMziOFprR5_cjF-xWinqrtg/viewform?usp=header",
+                "https://www.zeffy.com/en-US/ticketing/membership-renewal-17",
                 "_blank",
               )
             }
@@ -643,7 +642,6 @@ export default function App() {
     <Router>
       <div className="page">
         <Navbar onOpenContactModal={openContactModal} />
-        {/* <MeetingBanner /> */}
         <Routes>
           <Route
             path="/"
